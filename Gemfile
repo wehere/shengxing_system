@@ -8,11 +8,22 @@ gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'devise'
+# 上传头像
+gem "paperclip", "~> 4.2"
+# 分页
+gem "will_paginate-foundation"
+# 异常通知邮件
+gem 'exception_notification', '~> 4.0.1'
+# UI
+gem 'foundation-rails'
 group :development do
   gem 'spring'
 end
 group :development, :test do
   gem 'sqlite3'
+  gem 'rspec-rails', '~> 3.0.0'
+  gem 'factory_girl_rails'
+  gem 'database_cleaner'
 end
 group :test do
 
