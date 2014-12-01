@@ -20,7 +20,7 @@ group :development do
   gem 'spring'
 end
 group :development, :test do
-  gem 'sqlite3'
+  gem 'sqlite3', '= 1.3.8'
   gem 'rspec-rails', '~> 3.0.0'
   gem 'factory_girl_rails'
   gem 'database_cleaner'
