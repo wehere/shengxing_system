@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   # 超级管理员
   namespace :sp do
     resources :companies
+    resources :products
     resources :prices
   end
 
