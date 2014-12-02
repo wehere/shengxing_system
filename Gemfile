@@ -10,12 +10,10 @@ gem 'jbuilder', '~> 2.0'
 gem 'devise'
 # 上传头像
 gem "paperclip", "~> 4.2"
-# 分页
-gem "will_paginate-foundation"
 # 异常通知邮件
 gem 'exception_notification', '~> 4.0.1'
 # UI
-gem 'foundation-rails'
+gem 'bootstrap-sass'
 group :development do
   gem 'spring'
 end

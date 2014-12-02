@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users
-  root 'welcome#index'
+  root 'vis/static_pages#welcome'
 
   # 超级管理员
   namespace :sp do
@@ -15,7 +15,9 @@ Rails.application.routes.draw do
 
   # 游客
   namespace :vis do
-
+    resources :static_pages do
+      get :welcome
+    end
   end
 
   # 公司的客户
