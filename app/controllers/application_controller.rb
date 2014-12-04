@@ -9,7 +9,11 @@ class ApplicationController < ActionController::Base
       when BusinessException
         return e.to_s
       when ActiveRecord::RecordInvalid #对于模型中的字段校验，则返回一个hash，分别是字段所对应的错误信息。
-        return e.record.errors
+        errors = ''
+        e.record.errors.each do |k, v|
+          errors += v
+        end
+        return errors
       when ActiveRecord::RecordNotFound
         e.to_s.to_logger
         $@.to_logger
