@@ -76,6 +76,7 @@ GEM
     mime-types (1.25.1)
     minitest (5.4.3)
     multi_json (1.10.1)
+    mysql2 (0.3.17)
     orm_adapter (0.5.0)
     paperclip (4.2.0)
       activemodel (>= 3.0.0)
@@ -163,6 +164,7 @@ DEPENDENCIES
   factory_girl_rails
   jbuilder (~> 2.0)
   jquery-rails
+  mysql2
   paperclip (~> 4.2)
   rails (= 4.1.4)
   rspec-rails (~> 3.0.0)

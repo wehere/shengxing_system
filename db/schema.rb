@@ -28,8 +28,8 @@ ActiveRecord::Schema.define(version: 20141201061351) do
     t.integer  "company_id"
     t.integer  "product_id"
     t.string   "plan_weight"
-    t.float    "real_weight"
-    t.float    "money"
+    t.float    "real_weight",   limit: 24
+    t.float    "money",         limit: 24
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 20141201061351) do
     t.integer  "year_month_id"
     t.integer  "company_id"
     t.integer  "product_id"
-    t.float    "price"
+    t.float    "price",         limit: 24
     t.boolean  "is_used"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -51,6 +51,10 @@ ActiveRecord::Schema.define(version: 20141201061351) do
     t.string   "spec"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "test", force: true do |t|
+    t.string "name", limit: 32
   end
 
   create_table "users", force: true do |t|
@@ -69,8 +73,8 @@ ActiveRecord::Schema.define(version: 20141201061351) do
     t.integer  "company_id"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "year_months", force: true do |t|
     t.string   "val"
