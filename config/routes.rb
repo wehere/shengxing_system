@@ -8,11 +8,6 @@ Rails.application.routes.draw do
     resources :products
     resources :prices
   end
-scope module: 'sp' do
-    resources :companies
-    resources :products
-    resources :prices
-end
 
 
   # 公司管理员
