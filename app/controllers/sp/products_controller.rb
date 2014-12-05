@@ -5,12 +5,13 @@ class Sp::ProductsController < ApplicationController
 
   def create
     begin
-      Product.create! product_params
+      product = Product.new product_params
+      product.save!
       flash[:notice] = "创建成功"
       redirect_to new_sp_product_path
     rescue Exception => e
       flash[:alert] = dispose_exception e
-      @product = Product.new product_params
+      @product = product
       render new_sp_product_path
     end
   end
