@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141206082333) do
+ActiveRecord::Schema.define(version: 20141206090935) do
 
   create_table "companies", force: true do |t|
     t.string   "simple_name"
@@ -23,6 +23,17 @@ ActiveRecord::Schema.define(version: 20141206082333) do
     t.integer  "parent_id"
   end
 
+  create_table "order_items", force: true do |t|
+    t.integer  "order_id"
+    t.integer  "product_id"
+    t.integer  "price_id"
+    t.string   "plan_weight"
+    t.float    "real_weight", limit: 24
+    t.float    "money",       limit: 24
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "order_types", force: true do |t|
     t.integer  "company_id"
     t.string   "name"
@@ -31,13 +42,11 @@ ActiveRecord::Schema.define(version: 20141206082333) do
   end
 
   create_table "orders", force: true do |t|
-    t.integer  "price_id"
-    t.integer  "year_month_id"
     t.integer  "company_id"
-    t.integer  "product_id"
-    t.string   "plan_weight"
-    t.float    "real_weight",   limit: 24
-    t.float    "money",         limit: 24
+    t.integer  "store_id"
+    t.integer  "order_type_id"
+    t.date     "reach_order_date"
+    t.date     "send_order_date"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
