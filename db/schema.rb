@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141206093258) do
+ActiveRecord::Schema.define(version: 20141217133422) do
 
   create_table "companies", force: true do |t|
     t.string   "simple_name"
@@ -50,6 +50,17 @@ ActiveRecord::Schema.define(version: 20141206093258) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+    t.boolean  "delete_flag"
+  end
+
+  create_table "price_change_histories", force: true do |t|
+    t.integer  "price_id"
+    t.float    "from_price",  limit: 24
+    t.float    "to_price",    limit: 24
+    t.datetime "change_time"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "prices", force: true do |t|
@@ -97,6 +108,9 @@ ActiveRecord::Schema.define(version: 20141206093258) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "company_id"
+    t.string   "user_name"
+    t.string   "terminal_password"
+    t.string   "serial_number"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
