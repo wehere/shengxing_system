@@ -1,6 +1,6 @@
 class Sp::CompaniesController < ApplicationController
   def index
-    @companies = Company.paginate(page: params[:page],:per_page => 5)
+    @companies = Company.order(params[:simple_name]).paginate(page: params[:page],:per_page => 5)
   end
 
   def new
@@ -11,9 +11,9 @@ class Sp::CompaniesController < ApplicationController
    @company = Company.new(company_params)
    if @company.save
      flash[:success] = "Company created!"
-     redirect_to companies_path
+     redirect_to sp_companies_path
    else
-     render 'sp/companies'
+     render 'sp/companies/new'
    end
  end
 
@@ -29,7 +29,7 @@ end
     @company = Company.find(params[:id])
     if @company.update_attributes(company_params)
       flash[:success] = "更新成功!"
-      redirect_to @company
+      redirect_to sp_company_path(params[:id])
     else
       render 'edit'
     end
