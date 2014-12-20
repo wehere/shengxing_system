@@ -1,0 +1,23 @@
+<h1>Sp::Orders#index</h1>
+<p>Find me in app/views/sp/orders/index.html.erb</p>
+<table class="table">
+    <% @orders.each do |order| %>
+      <tr>
+        <td>
+        <%= order.id %>
+        </td>
+        <td>
+          <%= order.customer.simple_name %>
+        </td>
+        <td>
+          <%= order.store.name %>
+        </td>
+        <td>
+          <%= order.order_type.name %>
+        </td>
+        <td>
+          <%= order.reach_order_date %>
+        </td>
+      </tr>
+    <% end %>
+</table>

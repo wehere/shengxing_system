@@ -5,8 +5,5 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
   belongs_to :company
 
-  def company
-    Company.find(self.company_id)
-  end
 
 end

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   devise_for :users
   root 'vis/static_pages#welcome'
 
@@ -6,7 +7,13 @@ Rails.application.routes.draw do
   namespace :sp do
     resources :companies
     resources :products
-    resources :prices
+    resources :prices do
+      collection do
+        get :search
+        post :search
+      end
+    end
+    resources :orders
   end
 
 
@@ -18,7 +25,9 @@ Rails.application.routes.draw do
   # 游客
   namespace :vis do
     resources :static_pages do
-      get :welcome
+      collection do
+        get :welcome
+      end
     end
   end
 
