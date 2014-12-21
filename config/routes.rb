@@ -17,8 +17,8 @@ Rails.application.routes.draw do
   end
 
 
-  # 公司管理员
-  namespace :ad do
+  # 供应方
+  namespace :supply do
 
   end
 
@@ -31,8 +31,8 @@ Rails.application.routes.draw do
     end
   end
 
-  # 公司的客户
-  namespace :cs do
+  # 采购方
+  namespace :purchase do
 
   end
 end
