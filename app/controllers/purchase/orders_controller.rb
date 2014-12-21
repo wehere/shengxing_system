@@ -1,0 +1,5 @@
+class Purchase::OrdersController < BaseController
+  def index
+    @orders = current_user.company.orders
+  end
+end

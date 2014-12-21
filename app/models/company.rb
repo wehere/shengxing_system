@@ -4,6 +4,7 @@ class Company < ActiveRecord::Base
   has_many :orders, through: :customers
   has_many :customers, foreign_key: 'parent_id'
 
+
   def all_prices
     Price.where("company_id in ( ? )", self.customers.ids)
   end

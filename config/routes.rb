@@ -7,6 +7,12 @@ Rails.application.routes.draw do
   namespace :sp do
     resources :companies
     resources :products
+  end
+
+
+  # 供应方
+  namespace :supply do
+    resources :products
     resources :prices do
       collection do
         get :search
@@ -14,12 +20,6 @@ Rails.application.routes.draw do
       end
     end
     resources :orders
-  end
-
-
-  # 供应方
-  namespace :supply do
-
   end
 
   # 游客
@@ -33,6 +33,13 @@ Rails.application.routes.draw do
 
   # 采购方
   namespace :purchase do
-
+    resources :products
+    resources :prices do
+      collection do
+        get :search
+        post :search
+      end
+    end
+    resources :orders
   end
 end

@@ -1,0 +1,21 @@
+<table class="table">
+    <% @orders.each do |order| %>
+      <tr>
+        <td>
+        <%= order.id %>
+        </td>
+        <td>
+          <%= order.customer.simple_name %>
+        </td>
+        <td>
+          <%= order.store.name %>
+        </td>
+        <td>
+          <%= order.order_type.name %>
+        </td>
+        <td>
+          <%= order.reach_order_date %>
+        </td>
+      </tr>
+    <% end %>
+</table>

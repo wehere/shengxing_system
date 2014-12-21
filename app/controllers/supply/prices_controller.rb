@@ -1,4 +1,4 @@
-class Sp::PricesController < BaseController
+class Supply::PricesController < BaseController
   before_filter :need_login
   def index
     @prices = current_user.company.all_prices
