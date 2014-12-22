@@ -6,13 +6,13 @@
 <%= submit_tag '查询', class: 'btn-info' %>
 <% end %>
 <% if @search_results.blank? %>
-
+    <%= '无'  %>
 <% else %>
     <table class="table table-striped table-hover">
         <% @search_results.each do |price| %>
           <tr>
             <td>
-            <%= price.company.simple_name %>
+            <%= price.customer.simple_name %>
             </td>
             <td>
             <%= price.product.chinese_name %>

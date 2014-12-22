@@ -11,7 +11,7 @@ class Purchase::PricesController < BaseController
     if request.post?
       @customer_id = params[:customer_id]
       @year_month_id = params[:year_month_id]
-      @search_results = company.all_prices.where(company_id: params[:customer_id], year_month_id: params[:year_month_id])
+      @search_results = company.supply_prices.where(customer_id: params[:customer_id], year_month_id: params[:year_month_id])
       puts @search_results
     else
       @company_id = nil

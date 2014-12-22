@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141221102507) do
+ActiveRecord::Schema.define(version: 20141222151430) do
 
   create_table "companies", force: true do |t|
     t.string   "simple_name"
@@ -42,14 +42,15 @@ ActiveRecord::Schema.define(version: 20141221102507) do
   end
 
   create_table "order_types", force: true do |t|
-    t.integer  "company_id"
+    t.integer  "customer_id"
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "supplier_id"
   end
 
   create_table "orders", force: true do |t|
-    t.integer  "company_id"
+    t.integer  "customer_id"
     t.integer  "store_id"
     t.integer  "order_type_id"
     t.date     "reach_order_date"
@@ -58,6 +59,7 @@ ActiveRecord::Schema.define(version: 20141221102507) do
     t.datetime "updated_at"
     t.integer  "user_id"
     t.boolean  "delete_flag"
+    t.integer  "supplier_id"
   end
 
   create_table "price_change_histories", force: true do |t|
@@ -72,13 +74,14 @@ ActiveRecord::Schema.define(version: 20141221102507) do
 
   create_table "prices", force: true do |t|
     t.integer  "year_month_id"
-    t.integer  "company_id"
+    t.integer  "customer_id"
     t.integer  "product_id"
     t.float    "price",         limit: 24
     t.boolean  "is_used"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "true_spec"
+    t.integer  "supplier_id"
   end
 
   create_table "products", force: true do |t|
