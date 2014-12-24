@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141222151430) do
+ActiveRecord::Schema.define(version: 20141224143919) do
 
   create_table "companies", force: true do |t|
     t.string   "simple_name"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20141222151430) do
     t.integer  "company_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "delete_flag"
   end
 
   create_table "order_items", force: true do |t|
