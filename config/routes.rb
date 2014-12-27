@@ -17,6 +17,7 @@ Rails.application.routes.draw do
       collection do
         get :search
         post :search
+        post :generate_next_month
       end
     end
     resources :orders

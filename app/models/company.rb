@@ -14,7 +14,7 @@ class Company < ActiveRecord::Base
   has_many :in_orders, foreign_key: 'supplier_id', class_name: 'Order' #自己收到的所有订单
   has_many :in_order_items, through: :in_orders, class_name: 'OrderItem'
   def all_prices
-    Price.where("company_id in ( ? )", self.customers.ids)
+    Price.where("customer_id in ( ? )", self.customers.ids)
   end
 
   def all_orders

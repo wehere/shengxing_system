@@ -1,8 +1,8 @@
 <%= form_tag search_purchase_prices_path, method: :post do %>
 <%= label_tag 'year_month_id', '月份' %>
 <%= select_tag 'year_month_id', options_from_collection_for_select(@year_months, 'id', 'val', @year_month_id) %>
-<%= label_tag 'customer_id', '客户' %>
-<%= select_tag 'customer_id', options_from_collection_for_select(@customers, 'id', 'simple_name', @customer_id) %>
+<%= label_tag 'supplier_id', '客户' %>
+<%= select_tag 'supplier_id', options_from_collection_for_select(@supplies, 'id', 'simple_name', @supplier_id) %>
 <%= submit_tag '查询', class: 'btn-info' %>
 <% end %>
 <% if @search_results.blank? %>

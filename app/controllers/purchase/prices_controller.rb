@@ -6,15 +6,14 @@ class Purchase::PricesController < BaseController
 
   def search
     company = current_user.company
-    @customers = company.customers
+    @supplies = company.supplies
     @year_months = YearMonth.all
     if request.post?
-      @customer_id = params[:customer_id]
+      @supplier_id = params[:supplier_id]
       @year_month_id = params[:year_month_id]
-      @search_results = company.supply_prices.where(customer_id: params[:customer_id], year_month_id: params[:year_month_id])
-      puts @search_results
+      @search_results = company.get_prices.where(supplier_id: params[:supplier_id], year_month_id: params[:year_month_id])
     else
-      @company_id = nil
+      @supplier_id = nil
       @year_month_id = YearMonth.current_year_month.id
       @search_results = nil
     end

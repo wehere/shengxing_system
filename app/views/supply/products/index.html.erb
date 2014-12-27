@@ -1,0 +1,10 @@
+<table class="table">
+    <% @products.each do |product| %>
+        <tr>
+          <td><%= product.id %></td>
+          <td><%= product.chinese_name %></td>
+          <td><%= product.simple_abc %></td>
+          <td><%= link_to '新增价格', new_supply_price_path(product_id: product.id) %></td>
+        </tr>
+    <% end %>
+</table>
