@@ -41,7 +41,17 @@ class Supply::PricesController < BaseController
   end
 
   def generate_next_month
-
+    YearMonth.generate_recent_year_months
+    if request.post?
+      prices = Price.where(year_month_id: params[:origin_year_month_id], supplier_id: current_user.company.id)
+      Price.generate_next_month_batch prices, params[:target_year_month_id]
+      flash[:notice] = "成功"
+      redirect_to search_supply_prices_path, method: :get
+    else
+      @year_months = YearMonth.all.order(:id)
+      @target_year_month_id = YearMonth.next_year_month.id
+      @origin_year_month_id = YearMonth.current_year_month.id
+    end
   end
 private
   def price_params

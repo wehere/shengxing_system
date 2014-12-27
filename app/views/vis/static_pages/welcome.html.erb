@@ -1,10 +1,11 @@
 <h1>欢迎到来</h1>
-<h1>以供应商的身份</h1>
+<h1>以供应商的身份  supply</h1>
 <%= link_to '给客户提供的价格', search_supply_prices_path, method: :get %>
 <br/>
 <%= link_to '新增价格', supply_products_path, method: :get %>
 <br/>
-<%= link_to '生成下一个月价格', generate_next_month_supply_prices_path %>
-<h1>以订购方的身份</h1>
-<%= link_to '查看商家的价格', search_purchase_prices_path, method: :get %>
+<%= link_to '生成下一个月价格', generate_next_month_supply_prices_path, method: :get %>
+<h1>以订购方的身份  purchase</h1>
+<%= link_to '查看商家的价格', search_purchase_prices_path, method: :get %><br/>
+<%= link_to '查看订单', purchase_orders_path %>
 

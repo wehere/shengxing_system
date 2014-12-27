@@ -1,0 +1,21 @@
+<table class="table">
+  <tr>
+    <th>品名</th><th>订货量</th><th>到货量</th><th>金额小计</th>
+  </tr>
+  <% @order_items.each do |order_item| %>
+    <tr>
+      <td>
+        <%= order_item.product_chinese_name %>
+      </td>
+      <td>
+        <%= order_item.plan_weight %>
+      </td>
+      <td>
+        <%= order_item.real_weight %>
+      </td>
+      <td>
+        <%= order_item.money %>
+      </td>
+    </tr>
+  <% end %>
+</table>
