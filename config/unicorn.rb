@@ -25,7 +25,7 @@ working_directory "/home/deploy/apps/shengxing_system/current" # available in 0.
 
 # listen on both a Unix domain socket and a TCP port,
 # we use a shorter backlog for quicker failover when busy
-listen "/home/deploy/.unicorn.sock", :backlog => 64
+listen "/home/deploy/sx_sys_sock/.unicorn.sock", :backlog => 64
 listen 3001, :tcp_nopush => true
 
 # nuke workers after 30 seconds instead of 60 seconds (the default)
