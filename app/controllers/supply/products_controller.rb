@@ -1,6 +1,16 @@
-class Supply::ProductsController < ApplicationController
+class Supply::ProductsController < BaseController
+  before_filter :need_login
   def index
-    @products = Product.all
+    begin
+      @key_value = params[:key]
+      unless params[:key].blank?
+        @products = Product.where("id = ? or chinese_name like ? or simple_abc like ? ", params[:key],"%#{params[:key]}%","%#{params[:key]}%")
+      else
+        @products = Product.all
+      end
+    rescue Exception=>e
+      flash[:alert] = '查询失败，' + dispose_exception(e)
+    end
   end
 
   def create
@@ -8,11 +18,11 @@ class Supply::ProductsController < ApplicationController
       product = Product.new product_params
       product.save!
       flash[:notice] = "创建成功"
-      redirect_to new_sp_product_path
+      redirect_to new_supply_product_path
     rescue Exception => e
       flash[:alert] = dispose_exception e
       @product = product
-      render new_sp_product_path
+      render new_supply_product_path
     end
   end
 

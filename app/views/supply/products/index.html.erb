@@ -1,3 +1,9 @@
+<%= form_tag supply_products_path, method: :post do %>
+    <%= label_tag 'key', '关键词' %>
+    <%= text_field_tag 'key', @key_value %>
+    <%= submit_tag '查询' %>
+<% end %>
+
 <table class="table">
     <% @products.each do |product| %>
         <tr>

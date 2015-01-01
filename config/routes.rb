@@ -12,7 +12,11 @@ Rails.application.routes.draw do
 
   # 供应方
   namespace :supply do
-    resources :products
+    resources :products do
+      collection do
+        post :index
+      end
+    end
     resources :prices do
       collection do
         get :search
