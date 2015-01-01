@@ -11,11 +11,12 @@
         <%= order_item.plan_weight %>
       </td>
       <td>
-        <%= order_item.real_weight %>
+        <%= order_item.real_weight == 0 ? '' : order_item.real_weight %>
       </td>
       <td>
         <%= order_item.money %>
       </td>
     </tr>
   <% end %>
+  <tr><td>总金额</td><td></td><td></td><td><%= @sum_money %></td></tr>
 </table>

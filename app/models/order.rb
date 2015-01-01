@@ -5,4 +5,8 @@ class Order < ActiveRecord::Base
   belongs_to :year_month
   belongs_to :store
   belongs_to :order_type
+
+  def sum_money
+    self.order_items.sum('money')
+  end
 end

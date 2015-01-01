@@ -27,7 +27,11 @@ Rails.application.routes.draw do
         post :import_prices_from_xls
       end
     end
-    resources :orders
+    resources :orders do
+      collection do
+        post :index
+      end
+    end
   end
 
   # 游客
