@@ -19,6 +19,8 @@ Rails.application.routes.draw do
         post :search
         get :generate_next_month
         post :generate_next_month
+        get :import_prices_from_xls
+        post :import_prices_from_xls
       end
     end
     resources :orders

@@ -1,3 +1,4 @@
+require 'spreadsheet'
 class Supply::PricesController < BaseController
   before_filter :need_login
   def index
@@ -51,6 +52,21 @@ class Supply::PricesController < BaseController
       @year_months = YearMonth.all.order(:id)
       @target_year_month_id = YearMonth.next_year_month.id
       @origin_year_month_id = YearMonth.current_year_month.id
+    end
+  end
+
+  def import_prices_from_xls
+    @year_months = YearMonth.all
+    @year_month_id = YearMonth.current_year_month.id
+    company = current_user.company
+    @customers = company.customers
+    if request.post?
+      supplier_id = current_user.company.id
+      customer_id = params[:customer_id]
+      year_month_id = params[:year_month_id]
+      file_io = params[:price_xls]
+      flash[:alert] = Price.import_prices_from_xls supplier_id, customer_id, year_month_id, file_io
+      redirect_to import_prices_from_xls_supply_prices_path
     end
   end
 private

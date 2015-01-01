@@ -17,6 +17,8 @@ gem "paperclip", "~> 4.2"
 gem 'exception_notification', '~> 4.0.1'
 # UI
 gem 'bootstrap-sass'
+gem 'fastercsv', '~> 1.5.5'
+gem 'spreadsheet'
 group :development do
   gem 'spring'
 end
