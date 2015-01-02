@@ -10,4 +10,8 @@ class Purchase::OrdersController < BaseController
     @order_items = order.order_items
     @sum_money = order.sum_money
   end
+
+  def new
+    @supplies = current_user.company.supplies
+  end
 end
