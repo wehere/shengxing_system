@@ -13,5 +13,12 @@ class Purchase::OrdersController < BaseController
 
   def new
     @supplies = current_user.company.supplies
+    @customer_id = current_user.company.id
+  end
+
+  def send_message
+    OrderMessageMailer.order_message_email(params[:customer_id],params[:supplier_id],params[:content],params[:need_reach_date]).deliver
+    flash[:notice] = '发信成功'
+    redirect_to welcome_vis_static_pages_path
   end
 end

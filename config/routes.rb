@@ -52,6 +52,10 @@ Rails.application.routes.draw do
         post :search
       end
     end
-    resources :orders
+    resources :orders do
+      collection do
+        post :send_message
+      end
+    end
   end
 end

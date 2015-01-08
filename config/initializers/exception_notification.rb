@@ -20,7 +20,7 @@ ExceptionNotification.configure do |config|
     :email_prefix         => "[ERROR] ",
     :sender_address       => %{"Notifier" <864454373@qq.com>},
     :exception_recipients => %w{549174542@qq.com}
-  }
+  } if Rails.env.production?
 
   # Campfire notifier sends notifications to your Campfire room. Requires 'tinder' gem.
   # config.add_notifier :campfire, {
