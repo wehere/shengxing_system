@@ -2,5 +2,6 @@
 <%= form_tag "#" do %>
     <%= label_tag 'supplier_id', '选择供应商' %>
     <%= select_tag 'supplier_id', options_from_collection_for_select(@supplies, 'id', 'simple_name', @supplier_id) %>
+
     <%= submit_tag '提交' %>
 <% end %>
