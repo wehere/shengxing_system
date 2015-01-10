@@ -8,7 +8,7 @@
     <%= submit_tag '查询' %>
 <% end %>
 <table class="table">
-  <thead><th>订单ID</th><th>订货单位</th><th>门店</th><th>单据类型</th><th>到货日期</th><th>金额</th></thead>
+  <thead><th>订单ID</th><th>订货单位</th><th>门店</th><th>单据类型</th><th>到货日期</th><th>金额</th><th>操作</th></thead>
     <% @orders.each do |order| %>
       <tr>
         <td>
@@ -29,6 +29,11 @@
         <td>
           <%= order.sum_money %>
         </td>
+        <td>
+          <%= link_to '输入到货量', edit_supply_order_path(order.id) %>
+        </td>
       </tr>
     <% end %>
 </table>
+
+<%= will_paginate @orders, :class => 'flickr_pagination' ,:previous_label => '上一页', :next_label => '下一页'%>

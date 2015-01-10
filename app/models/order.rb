@@ -5,8 +5,9 @@ class Order < ActiveRecord::Base
   belongs_to :year_month
   belongs_to :store
   belongs_to :order_type
-
+  scope :valid_orders, -> { where("delete_flag is null or delete_flag = 0") }
   def sum_money
-    self.order_items.sum('money')
+    self.order_items.sum('money').round(2)
   end
+
 end

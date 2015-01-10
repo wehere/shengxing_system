@@ -1,6 +1,6 @@
 <table class="table">
   <tr>
-    <th>品名</th><th>订货量</th><th>到货量</th><th>金额小计</th>
+    <th>品名</th><th>订货量</th><th>到货量</th><th>价格</th><th>金额小计</th>
   </tr>
   <% @order_items.each do |order_item| %>
     <tr>
@@ -14,9 +14,12 @@
         <%= order_item.real_weight == 0 ? '' : order_item.real_weight %>
       </td>
       <td>
+        <%= order_item.real_price %>
+      </td>
+      <td>
         <%= order_item.money %>
       </td>
     </tr>
   <% end %>
-  <tr><td>总金额</td><td></td><td></td><td><%= @sum_money %></td></tr>
+  <tr><td>总金额</td><td></td><td></td><td><%= @sum_money %></td><td></td></tr>
 </table>

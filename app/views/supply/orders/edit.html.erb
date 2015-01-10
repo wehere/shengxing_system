@@ -1,0 +1,51 @@
+
+<h3>
+<%= @order.customer.simple_name %>
+<%= @order.store.name %>
+<%= @order.order_type.name %>
+<%= @order.reach_order_date %>
+</h3>
+
+<%= form_tag supply_order_path, method: :patch, name: 'accfrm' do %>
+<%= hidden_field_tag 'order_id', @order.id %>
+<table class="table table-striped">
+  <thead>
+    <th>品名</th><th>订货量</th><th>到货量</th><th>价格</th><th>金额小计</th>
+  </thead>
+  <tbody>
+    <% @order_items.each do |order_item| %>
+        <tr>
+          <td>
+            <%= order_item.product_chinese_name %>
+          </td>
+          <td>
+            <%= order_item.plan_weight %>
+          </td>
+          <td>
+            <%= text_field_tag "order_item[#{order_item.id}]", order_item.real_weight == 0 ? '' : order_item.real_weight, class: 'special_text_field' %>
+          </td>
+          <td>
+            <%= order_item.real_price %>
+          </td>
+          <td>
+            <%= order_item.money %>
+          </td>
+        </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= submit_tag '提交', class: 'btn-success' %>
+<% end %>
+<% if @pre_order.blank? %>
+    向前没有了
+<% else %>
+    <%= link_to '上一天', edit_supply_order_path(@pre_order.id) %>
+<% end %>
+<% if @next_order.blank? %>
+    向后没有了
+<% else %>
+    <%= link_to '下一天', edit_supply_order_path(@next_order.id) %>
+<% end %>
+<%= link_to "显示#{@order.customer.simple_name}#{@order.store.name}本月单据" %>
+<%= link_to "显示本月所有单据" %>
+

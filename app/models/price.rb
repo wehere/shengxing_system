@@ -5,7 +5,12 @@ class Price < ActiveRecord::Base
   belongs_to :supplier, class_name: 'Company', foreign_key: 'supplier_id'
   belongs_to :customer, class_name: 'Company', foreign_key: 'customer_id'
   has_many :price_change_historieses
+  has_many :order_items
   scope :prices_in, ->(year_month_id) { where(year_month_id: year_month_id)}
+
+  def real_price
+    self.price
+  end
 
   def generate_next_month next_month_id
     return nil if Price.exists? year_month_id: next_month_id, customer_id: self.customer_id, product_id: self.product_id, supplier_id: self.supplier_id
