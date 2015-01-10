@@ -1,4 +1,5 @@
-
+<br/>
+<%= render partial: 'link_edit_order' %>
 <h3>
 <%= @order.customer.simple_name %>
 <%= @order.store.name %>
@@ -8,9 +9,9 @@
 
 <%= form_tag supply_order_path, method: :patch, name: 'accfrm' do %>
 <%= hidden_field_tag 'order_id', @order.id %>
-<table class="table table-striped">
+<table class="table table-striped table-condensed table-hover">
   <thead>
-    <th>品名</th><th>订货量</th><th>到货量</th><th>价格</th><th>金额小计</th>
+    <th width="150">品名</th><th width="80">订货量</th><th width="100">到货量</th><th width="80">价格</th><th>金额小计</th>
   </thead>
   <tbody>
     <% @order_items.each do |order_item| %>
@@ -22,7 +23,7 @@
             <%= order_item.plan_weight %>
           </td>
           <td>
-            <%= text_field_tag "order_item[#{order_item.id}]", order_item.real_weight == 0 ? '' : order_item.real_weight, class: 'special_text_field' %>
+            <%= text_field_tag "order_item[#{order_item.id}]", order_item.real_weight == 0 ? '' : order_item.real_weight, class: 'special_text_field text-right', size: 10 %>
           </td>
           <td>
             <%= order_item.real_price %>
@@ -32,20 +33,16 @@
           </td>
         </tr>
     <% end %>
+    <tr>
+      <td><h4>总计</h4></td><td></td><td></td><td></td><td><%= @order.sum_money %></td>
+    </tr>
   </tbody>
 </table>
-<%= submit_tag '提交', class: 'btn-success' %>
+<div class="row">
+  <div class="col-sm-1 col-sm-offset-3">
+    <%= submit_tag '提交', class: 'btn-primary btn btn-lg' %>
+  </div>
+</div>
 <% end %>
-<% if @pre_order.blank? %>
-    向前没有了
-<% else %>
-    <%= link_to '上一天', edit_supply_order_path(@pre_order.id) %>
-<% end %>
-<% if @next_order.blank? %>
-    向后没有了
-<% else %>
-    <%= link_to '下一天', edit_supply_order_path(@next_order.id) %>
-<% end %>
-<%= link_to "显示#{@order.customer.simple_name}#{@order.store.name}本月单据" %>
-<%= link_to "显示本月所有单据" %>
-
+<br/>
+<%= render partial: 'link_edit_order' %>

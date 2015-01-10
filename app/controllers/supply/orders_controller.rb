@@ -5,19 +5,20 @@ class Supply::OrdersController < BaseController
     @date_start = params[:date_start].blank? ? Time.now.to_date : params[:date_start]
     @date_end = params[:date_end].blank? ? Time.now.to_date : params[:date_end]
     @orders = current_user.company.in_orders.where("delete_flag is null or delete_flag = 0")
-    if !params[:date_start].blank? && !params[:date_end].blank?
-      @orders = @orders.where(reach_order_date: params[:date_start]..params[:date_end])
-    end
-    unless params[:key].blank?
-      @orders = @orders.where("id = ? or customer_id = ?", params[:key], params[:key])
+    @orders = @orders.where(reach_order_date: @date_start..@date_end)
+    @orders = @orders.where(customer_id: params[:customer_id]) unless params[:customer_id].blank?
+    @orders = @orders.where(store_id: params[:store_id]) unless params[:store_id].blank?
+    unless @key.blank?
+      company = Company.find_by_simple_name(@key)
+      @orders = @orders.where("id = ? or customer_id = ? or customer_id = ?", @key, @key, company.id)
     end
     @orders = @orders.paginate(page: params[:page], per_page: 10)
   end
 
   def edit
     @order = Order.find(params[:id])
-    @pre_order = current_user.company.in_orders.valid_orders.where(customer_id: @order.customer_id, store_id: @order.store_id, reach_order_date: @order.reach_order_date - 1.days ).first
-    @next_order = current_user.company.in_orders.valid_orders.where(customer_id: @order.customer_id, store_id: @order.store_id, reach_order_date: @order.reach_order_date + 1.days ).first
+    @pre_order = @order.previous
+    @next_order = @order.next
     @order_items = @order.order_items
   end
 
