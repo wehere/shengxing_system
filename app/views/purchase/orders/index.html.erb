@@ -1,9 +1,20 @@
+<br/>
+<div class="row">
+  <% @recent_months.each do |date| %>
+      <div class="col-sm-1">
+        <%= form_tag purchase_orders_path, method: :post do %>
+            <%= hidden_field_tag 'query_date', date %>
+            <%= submit_tag "#{YearMonth.chinese_month_format date}", class: "btn #{YearMonth.chinese_month_format(date)==@active_month ? 'btn-success' : 'btn-primary'}" %>
+        <% end %>
+      </div>
+  <% end %>
+</div>
 <table class="table">
   <thead><th>订单ID</th><th>订货单位</th><th>门店</th><th>单据类型</th><th>到货日期</th><th>金额</th></thead>
-    <% @orders.each do |order| %>
+  <% @orders.each do |order| %>
       <tr>
         <td>
-        <%= order.id %>
+          <%= order.id %>
         </td>
         <td>
           <%= order.customer.simple_name %>
@@ -16,7 +27,7 @@
         </td>
         <td>
           <%= order.reach_order_date %>
-        </td>`
+        </td>
         <td>
           <%= order.sum_money %>
         </td>
@@ -24,7 +35,7 @@
           <%= link_to '查看明细',edit_purchase_order_path(order.id),remote: true%>
         </td>
       </tr>
-    <% end %>
+  <% end %>
 </table>
 
 <!-- Modal -->
