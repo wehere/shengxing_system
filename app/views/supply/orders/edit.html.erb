@@ -50,8 +50,8 @@
     <%= render partial: 'link_edit_order' %>
   </div>
   <div class="col-sm-5">
-    <% unless @order.comments.blank? %>
-        <% @order.comments.each do |comment| %>
+    <% unless @order.comments.valid.blank? %>
+        <% @order.comments.valid.each do |comment| %>
             <div class="row">
               <div class="col-sm-12">
                 <h6><%= comment.user.user_name %>&nbsp&nbsp<%= comment.created_at.to_s(:db) %>  </h6>
