@@ -12,14 +12,12 @@ class Order < ActiveRecord::Base
   end
 
   def previous
-    orders = Order.where(customer_id: self.customer_id, store_id: self.store_id, supplier_id: self.supplier_id).where("reach_order_date < ?", self.reach_order_date)
-    puts orders.maximum('reach_order_date')
+    orders = Order.valid_orders.where(customer_id: self.customer_id, store_id: self.store_id, supplier_id: self.supplier_id).where("reach_order_date < ?", self.reach_order_date)
     orders.where(reach_order_date: orders.maximum('reach_order_date')).first
   end
 
   def next
-    orders = Order.where(customer_id: self.customer_id, store_id: self.store_id, supplier_id: self.supplier_id).where("reach_order_date > ?", self.reach_order_date)
-    puts orders.minimum('reach_order_date')
+    orders = Order.valid_orders.where(customer_id: self.customer_id, store_id: self.store_id, supplier_id: self.supplier_id).where("reach_order_date > ?", self.reach_order_date)
     orders.where(reach_order_date: orders.minimum('reach_order_date')).first
   end
 
