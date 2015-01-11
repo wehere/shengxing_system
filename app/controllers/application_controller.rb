@@ -15,12 +15,12 @@ class ApplicationController < ActionController::Base
         end
         return errors
       when ActiveRecord::RecordNotFound
-        e.to_s.to_logger
-        $@.to_logger
+        # e.to_s.to_logger
+        # $@.to_logger
         return '记录未被找到'
       else
-        e.to_s.to_logger
-        $@.to_logger
+        # e.to_s.to_logger
+        # $@.to_logger
         return '发生未知错误'
     end
   end

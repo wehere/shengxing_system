@@ -10,14 +10,14 @@
   <% end %>
 </div>
 <table class="table">
-  <thead><th>订单ID</th><th>订货单位</th><th>门店</th><th>单据类型</th><th>到货日期</th><th>金额</th></thead>
+  <thead><th>订单ID</th><th>送货单位</th><th>我的门店</th><th>单据类型</th><th>到货日期</th><th>金额</th></thead>
   <% @orders.each do |order| %>
       <tr>
         <td>
           <%= order.id %>
         </td>
         <td>
-          <%= order.customer.simple_name %>
+          <%= order.supplier.simple_name %>
         </td>
         <td>
           <%= order.store.name %>
@@ -33,6 +33,7 @@
         </td>
         <td>
           <%= link_to '查看明细',edit_purchase_order_path(order.id),remote: true%>
+          <%= link_to 'show', purchase_order_path(order.id) %>
         </td>
       </tr>
   <% end %>

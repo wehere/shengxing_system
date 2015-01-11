@@ -30,6 +30,7 @@ Rails.application.routes.draw do
     resources :orders do
       collection do
         post :index
+        post :comment
       end
     end
   end
@@ -56,6 +57,7 @@ Rails.application.routes.draw do
       collection do
         post :send_message
         post :index
+        post :comment
       end
     end
   end

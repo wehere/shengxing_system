@@ -4,13 +4,13 @@ class Supply::OrdersController < BaseController
     @key = params[:key]
     @date_start = params[:date_start].blank? ? Time.now.to_date : params[:date_start]
     @date_end = params[:date_end].blank? ? Time.now.to_date : params[:date_end]
-    @orders = current_user.company.in_orders.where("delete_flag is null or delete_flag = 0")
+    @orders = current_user.company.in_orders.valid_orders
     @orders = @orders.where(reach_order_date: @date_start..@date_end)
     @orders = @orders.where(customer_id: params[:customer_id]) unless params[:customer_id].blank?
     @orders = @orders.where(store_id: params[:store_id]) unless params[:store_id].blank?
     unless @key.blank?
       company = Company.find_by_simple_name(@key)
-      @orders = @orders.where("id = ? or customer_id = ? or customer_id = ?", @key, @key, company.id)
+      @orders = @orders.where("id = ? or customer_id = ? or customer_id = ?", @key, @key, company.blank? ? nil : company.id)
     end
     @orders = @orders.paginate(page: params[:page], per_page: 10)
   end
@@ -33,6 +33,17 @@ class Supply::OrdersController < BaseController
       end
     end
     redirect_to edit_supply_order_path(params[:order_id])
+  end
+
+  def comment
+    begin
+      comment = Comment.create! order_id: params[:order_id], content: params[:content], user_id: current_user.id
+      OrderMessageMailer.reply_question_order_message(params[:content],comment.created_at,params[:order_id]).deliver
+      redirect_to edit_supply_order_path(params[:order_id])
+    rescue Exception => e
+      flash[:alert] = dispose_exception e
+      redirect_to edit_supply_order_path(params[:order_id])
+    end
   end
 
 end

@@ -5,6 +5,9 @@ class Purchase::OrdersController < BaseController
     date_param = params[:query_date].blank? ? Time.now.to_date : params[:query_date].to_date
     @active_month = YearMonth.chinese_month_format date_param
     @orders = current_user.company.out_orders.valid_orders.where(reach_order_date: date_param.at_beginning_of_month..date_param.at_end_of_month)
+    @orders = @orders.where(supplier_id: params[:supplier_id]) unless params[:supplier_id].blank?
+    @orders = @orders.where(store_id: params[:store_id]) unless params[:store_id].blank?
+    @orders = @orders.paginate(page: params[:page], per_page: 31)
   end
 
   def edit
@@ -26,6 +29,21 @@ class Purchase::OrdersController < BaseController
   end
 
   def show
+    @order = Order.find(params[:id])
+    @pre_order = @order.previous
+    @next_order = @order.next
+    @order_items = @order.order_items
+    @sum_money = @order.sum_money
+  end
 
+  def comment
+    begin
+      comment = Comment.create! order_id: params[:order_id], content: params[:content], user_id: current_user.id
+      OrderMessageMailer.question_order_message(params[:content],comment.created_at,params[:order_id]).deliver
+      redirect_to purchase_order_path(params[:order_id])
+    rescue Exception => e
+      flash[:alert] = dispose_exception e
+      redirect_to purchase_order_path(params[:order_id])
+    end
   end
 end

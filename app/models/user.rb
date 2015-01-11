@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
   belongs_to :company
+  has_many :comments
   delegate :simple_name, to: :company, prefix: true, allow_nil: true
 
 end
