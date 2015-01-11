@@ -12,6 +12,7 @@ Rails.application.routes.draw do
 
   # 供应方
   namespace :supply do
+    resources :home, only: [:index]
     resources :products do
       collection do
         post :index
@@ -46,6 +47,7 @@ Rails.application.routes.draw do
 
   # 采购方
   namespace :purchase do
+    resources :home, only: [:index]
     resources :products
     resources :prices do
       collection do
