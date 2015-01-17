@@ -7,7 +7,7 @@ class Price < ActiveRecord::Base
   has_many :price_change_historieses
   has_many :order_items
   scope :prices_in, ->(year_month_id) { where(year_month_id: year_month_id)}
-
+  scope :available, -> { where(is_used: 1) }
   def real_price
     self.price
   end
@@ -60,5 +60,29 @@ class Price < ActiveRecord::Base
     end
     File.delete origin_name_with_path
     message
+  end
+
+  def self.export_xls_of_prices supplier_id, customer_id, year_month_id
+    prices = Price.where(supplier_id: supplier_id, customer_id: customer_id, year_month_id: year_month_id).available
+    BusinessException.raise '该月份该单位没有对应的报价表！' if prices.blank?
+    Spreadsheet.client_encoding = "UTF-8"
+    book = Spreadsheet::Workbook.new
+    sheet1 = book.create_worksheet name: '报价表'
+    format = Spreadsheet::Format.new border: :thin
+    merge_format = Spreadsheet::Format.new align: :merge, horizontal_align: :center
+    sheet1.merge_cells(0,0,0,4)
+    sheet1.row(0).set_format(0,merge_format)
+    sheet1.row(0)[0] = '上海胜兴食品报价表'
+    %w{产品ID 产品名称 产品规格 产品价格 备注}.each_with_index do |title,index|
+      sheet1.row(1).set_format(index,format)
+      sheet1.row(1).push title
+    end
+    prices.each_with_index do |price,index|
+      5.times { |i| sheet1.row(index+2).set_format(i,format) }
+      sheet1.row(index+2).push price.product.id, price.product.chinese_name.to_s, price.true_spec, price.price, ''
+    end
+    file_path = "public/temp_export_price.xls"
+    book.write file_path
+    file_path
   end
 end

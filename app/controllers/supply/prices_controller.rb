@@ -69,6 +69,32 @@ class Supply::PricesController < BaseController
       redirect_to import_prices_from_xls_supply_prices_path
     end
   end
+
+  def export_xls_of_prices
+    @supplier_id = current_user.company.id
+    @customers = current_user.company.customers.order(:simple_name)
+    @year_months = YearMonth.all.order(:id)
+    @current_year_month_id = params[:year_month_id] || YearMonth.current_year_month.id
+    if request.post?
+      begin
+        file_name = Price.export_xls_of_prices @supplier_id, params[:id], params[:year_month_id]
+        if File.exists? file_name
+          io = File.open(file_name)
+          io.binmode
+          send_data io.read, file_name: file_name, disposition: 'attachment'
+          io.close
+          File.delete file_name
+        else
+          flash[:alert] = '文件不存在！'
+          redirect_to export_xls_of_prices_supply_prices_path
+        end
+      rescue Exception => e
+        flash[:alert] = dispose_exception e
+        render :export_xls_of_prices
+      end
+    end
+  end
+
 private
   def price_params
     params.permit([:year_month_id,:customer_id,:product_id,:price,:true_spec,:supplier_id])

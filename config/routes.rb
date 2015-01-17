@@ -26,6 +26,10 @@ Rails.application.routes.draw do
         post :generate_next_month
         get :import_prices_from_xls
         post :import_prices_from_xls
+        get :export_xls_of_prices
+      end
+      member do
+        post :export_xls_of_prices
       end
     end
     resources :orders do

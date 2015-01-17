@@ -1,1 +1,15 @@
-<h1>供应商的主页</h1>
+<br/><br/>
+<%= link_to '给客户提供的价格', search_supply_prices_path, method: :get, class: 'btn btn-primary' %>
+<br/><br/>
+<%= link_to '新增价格', supply_products_path, method: :get, class: 'btn btn-primary' %>
+<br/><br/>
+<%= link_to '生成下一个月价格', generate_next_month_supply_prices_path, method: :get, class: 'btn btn-primary' %>
+<br/><br/>
+<%= link_to '用excel导入价格', import_prices_from_xls_supply_prices_path, method: :get, class: 'btn btn-primary' %>
+<br/><br/>
+<%= link_to '新增产品', new_supply_product_path, class: 'btn btn-primary' %>
+<br/><br/>
+<%= link_to '查看订单', supply_orders_path, class: 'btn btn-primary' %>
+<br/><br/>
+
+<%= link_to '导出价格', export_xls_of_prices_supply_prices_path, class: 'btn-primary btn' %>
