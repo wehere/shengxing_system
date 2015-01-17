@@ -33,5 +33,5 @@ bower.json
 
 config/deploy.rb
 config/deploy/production.rb
-
+config/unicorn.rb
 Capfile
