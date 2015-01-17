@@ -81,7 +81,7 @@ class Supply::PricesController < BaseController
         if File.exists? file_name
           io = File.open(file_name)
           io.binmode
-          send_data io.read, file_name: file_name, disposition: 'attachment'
+          send_data io.read, filename: file_name, disposition: 'inline'
           io.close
           File.delete file_name
         else
