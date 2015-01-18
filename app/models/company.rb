@@ -13,6 +13,7 @@ class Company < ActiveRecord::Base
   has_many :out_order_items, through: :out_orders, class_name: 'OrderItem'
   has_many :in_orders, foreign_key: 'supplier_id', class_name: 'Order' #自己收到的所有订单
   has_many :in_order_items, through: :in_orders, class_name: 'OrderItem'
+  has_many :products, foreign_key: :supplier_id
   def all_prices
     Price.where("customer_id in ( ? )", self.customers.ids)
   end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150111073330) do
+ActiveRecord::Schema.define(version: 20150118130728) do
 
   create_table "comments", force: true do |t|
     t.integer  "order_id"
@@ -109,6 +109,7 @@ ActiveRecord::Schema.define(version: 20150111073330) do
     t.string   "spec"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "supplier_id"
   end
 
   create_table "stores", force: true do |t|
