@@ -36,9 +36,21 @@ class Supply::PricesController < BaseController
   end
 
   def create
-    Price.create! price_params
-    flash[:success] = '创建成功'
-    redirect_to search_supply_prices_path, method: :get
+    begin
+      Price.create! price_params
+      flash[:success] = '创建成功'
+      redirect_to search_supply_prices_path, method: :get
+    rescue Exception => e
+      flash[:alert] = dispose_exception e
+      company = current_user.company
+      @product_id = params[:product_id]
+      @chinese_name = Product.find(@product_id).chinese_name
+      @supplier_id = company.id
+      @customers = company.customers
+      @year_months = YearMonth.all
+      @year_month_id = YearMonth.current_year_month.id
+      render :new
+    end
   end
 
   def generate_next_month
