@@ -13,9 +13,10 @@ Rails.application.routes.draw do
   # 供应方
   namespace :supply do
     resources :home, only: [:index]
-    resources :products do
+    resources :products, only: [:index, :new, :update, :edit] do
       collection do
         post :index
+        post :create_one
       end
     end
     resources :prices do

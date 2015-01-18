@@ -3,6 +3,7 @@
     <%= label_tag 'key', '关键词' %>
     <%= text_field_tag 'key', @key_value %>
     <%= submit_tag '查询', class: 'btn btn-primary' %>
+    (关键词可以是产品ID、中文名称、缩写)
 <% end %>
 <br/>
 <table class="table table-striped">
@@ -12,7 +13,12 @@
           <td><%= product.id %></td>
           <td><%= product.chinese_name %></td>
           <td><%= product.simple_abc %></td>
-          <td><%= link_to '新增价格', new_supply_price_path(product_id: product.id) %></td>
+
+          <td>
+            <%= link_to '修改', edit_supply_product_path(product.id) %>
+            <%= link_to '新增价格', new_supply_price_path(product_id: product.id) %>
+          </td>
         </tr>
     <% end %>
 </table>
+<%= will_paginate @products, :class => 'flickr_pagination' ,:previous_label => '<<上一页', :next_label => '下一页>>'%>
