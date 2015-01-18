@@ -1,10 +1,12 @@
+<br/>
 <%= form_tag supply_products_path, method: :post do %>
     <%= label_tag 'key', '关键词' %>
     <%= text_field_tag 'key', @key_value %>
-    <%= submit_tag '查询' %>
+    <%= submit_tag '查询', class: 'btn btn-primary' %>
 <% end %>
-
-<table class="table">
+<br/>
+<table class="table table-striped">
+  <thead><th>产品ID</th><th>中文名称</th><th>缩写</th><th>操作</th></thead>
     <% @products.each do |product| %>
         <tr>
           <td><%= product.id %></td>
