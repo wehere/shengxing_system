@@ -39,6 +39,7 @@ Rails.application.routes.draw do
         post :comment
       end
     end
+    resources :order_types, only: [:index, :create, :destroy, :new]
   end
 
   # 游客
