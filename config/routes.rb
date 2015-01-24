@@ -40,6 +40,7 @@ Rails.application.routes.draw do
       end
     end
     resources :order_types, only: [:index, :create, :destroy, :new]
+    resources :order_items
   end
 
   # 游客

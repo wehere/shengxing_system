@@ -1,0 +1,5 @@
+$('#OrderItemModal').modal('hide');
+$('#plan_weight_oi_<%= @order_item.id %>').html('<%= @order_item.plan_weight %>');
+$('#real_price_oi_<%= @order_item.id %>').html('<%= @order_item.real_price %>');
+$('#money_oi_<%= @order_item.id %>').html('<%= @order_item.money %>');
+$('#order_item_<%= @order_item.id %>').val('<%= @order_item.real_weight %>');

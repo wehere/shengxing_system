@@ -7,4 +7,9 @@ class OrderItem < ActiveRecord::Base
   def update_money
     self.update_attribute :money, self.real_price*self.real_weight
   end
+
+  def change_price new_price
+    self.price.update_attribute :price, new_price
+  end
+
 end
