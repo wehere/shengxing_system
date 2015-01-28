@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-sm-2" >
-    <%= link_to @pre_order.blank? ? '向前没有了' : '上一天', @pre_order.blank? ? '#' : edit_supply_order_path(@pre_order.id), class: 'btn-primary btn' %>
+    <%= link_to @pre_order.blank? ? '向前没有了' : '上一张', @pre_order.blank? ? '#' : edit_supply_order_path(@pre_order.id), class: 'btn-primary btn' %>
   </div>
   <div class="col-sm-2">
-    <%= link_to @next_order.blank? ? '向后没有了' : '下一天', @next_order.blank? ? '#' : edit_supply_order_path(@next_order.id), class: 'btn-primary btn' %>
+    <%= link_to @next_order.blank? ? '向后没有了' : '下一张', @next_order.blank? ? '#' : edit_supply_order_path(@next_order.id), class: 'btn-primary btn' %>
   </div>
   <div class="col-sm-4">
     <%= form_tag supply_orders_path, method: :post do %>
