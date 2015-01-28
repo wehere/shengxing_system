@@ -16,20 +16,3 @@
 //= require turbolinks
 //= require_tree .
 
-$(document).ready(function(){
-    $("input").keypress(function (e) {
-        var keyCode = e.keyCode ? e.keyCode : e.which ? e.which : e.charCode;
-        if (keyCode == 13){
-            var i;
-            var collect_elements = $(".special_text_field");
-            for (i = 0; i < collect_elements.length; i++)
-                if (this == collect_elements[i])
-                    break;
-            i = (i + 1) % collect_elements.length;
-            collect_elements[i].focus();
-            return false;
-        }
-        else
-            return true;
-    });
-});
