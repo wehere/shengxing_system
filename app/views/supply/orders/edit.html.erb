@@ -1,3 +1,27 @@
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        if (window.location.href.indexOf("?t=")<0)
+        {
+            window.location.href=window.location.href+"?t=<%= Time.now.to_s(:number) %>";
+        }
+        $("input").keypress(function (e) {
+            var keyCode = e.keyCode ? e.keyCode : e.which ? e.which : e.charCode;
+            if (keyCode == 13){
+                var i;
+                var collect_elements = $(".special_text_field");
+                for (i = 0; i < collect_elements.length; i++)
+                    if (this == collect_elements[i])
+                        break;
+                i = (i + 1) % collect_elements.length;
+                collect_elements[i].focus();
+                return false;
+            }
+            else
+                return true;
+        });
+    });
+</script>
 <br/>
 <div class="row">
   <div class="col-sm-7">
@@ -35,7 +59,7 @@
                     <%= order_item.money %>
                   </td>
                   <td>
-                    <%= link_to '', edit_supply_order_item_path(order_item.id), remote: true, class: 'btn glyphicon glyphicon-pencil', style: 'padding:0px;margin:0px'  %>
+                    <%= link_to '', edit_supply_order_item_path(order_item.id), remote: true, class: 'btn glyphicon glyphicon-pencil', style: 'padding:0px;margin:0px' %>
                   </td>
             </tr>
         <% end %>
@@ -46,7 +70,7 @@
     </table>
     <div class="row">
       <div class="col-sm-1 col-sm-offset-3">
-        <%= submit_tag '提交', class: 'btn-primary btn btn-lg' %>
+        <%= submit_tag '提交', class: 'btn-primary btn' %>
       </div>
     </div>
     <% end %>
@@ -128,22 +152,3 @@
 
 
 </div>
-<script type="text/javascript">
-    $(document).ready(function(){
-        $("input").keypress(function (e) {
-            var keyCode = e.keyCode ? e.keyCode : e.which ? e.which : e.charCode;
-            if (keyCode == 13){
-                var i;
-                var collect_elements = $(".special_text_field");
-                for (i = 0; i < collect_elements.length; i++)
-                    if (this == collect_elements[i])
-                        break;
-                i = (i + 1) % collect_elements.length;
-                collect_elements[i].focus();
-                return false;
-            }
-            else
-                return true;
-        });
-    });
-</script>
