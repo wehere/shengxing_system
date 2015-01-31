@@ -1,30 +1,43 @@
+<br/><br/>
 <%= form_tag search_supply_prices_path, method: :post do %>
 <%= label_tag 'year_month_id', '月份' %>
 <%= select_tag 'year_month_id', options_from_collection_for_select(@year_months, 'id', 'val', @year_month_id) %>
 <%= label_tag 'customer_id', '客户' %>
 <%= select_tag 'customer_id', options_from_collection_for_select(@customers, 'id', 'simple_name', @customer_id) %>
-<%= submit_tag '查询', class: 'btn-info' %>
+<%= submit_tag '查询', class: 'btn btn-info' %>
 <% end %>
+<br/><br/>
 <% if @search_results.blank? %>
 
 <% else %>
     <table class="table table-striped table-hover">
-        <% @search_results.each do |price| %>
-          <tr>
-            <td>
-            <%= price.customer.simple_name %>
-            </td>
-            <td>
-            <%= price.product.chinese_name %>
-            </td>
-            <td>
-            <%= price.true_spec %>
-            </td>
-            <td>
-            <%= price.price %>
-            </td>
+      <thead>
+        <th width="150">单位名称</th><th width="150">产品名称</th><th width="100">规格</th><th width="180">价格</th><th width="100"></th><th></th>
+      </thead>
+        <% @search_results.each_with_index do |price, index| %>
+          <tr id="pos_<%= index %>">
+            <%= form_tag supply_price_path(price.id), method: :patch do %>
+                <td>
+                <%= price.customer.simple_name %>
+                </td>
+                <td>
+                <%= price.product.chinese_name %>
+                </td>
+                <td>
+                <%= text_field_tag "submitted_spec", price.true_spec, size: 6 %>
+                </td>
+                <%= hidden_field_tag 'pos_id', index %>
+                <td>
+                <%= text_field_tag "submitted_price", price.price, size: 7 %>
+                <%= submit_tag '保存修改', class: 'btn btn-primary' %>
+                </td>
+                <td id="msg_<%= price.id %>" style="text-align: left">
 
+                </td>
+                <td></td>
+            <% end %>
           </tr>
         <% end %>
     </table>
 <% end %>
+<h1 id="pos_last"></h1>
