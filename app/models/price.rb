@@ -11,7 +11,7 @@ class Price < ActiveRecord::Base
   validate :validate
 
   def validate
-    errors.add(:product_id, '该产品价格已经存在！') if Price.where(product_id: product_id, customer_id: customer_id, supplier_id: supplier_id, year_month_id: year_month_id).count >= 1
+    errors.add(:product_id, '该产品价格已经存在！') if Price.where(product_id: product_id, customer_id: customer_id, supplier_id: supplier_id, year_month_id: year_month_id, is_used: true).count >= 1
   end
 
   def real_price

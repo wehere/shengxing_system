@@ -30,8 +30,8 @@ class Purchase::OrdersController < BaseController
 
   def show
     @order = Order.find(params[:id])
-    @pre_order = @order.previous
-    @next_order = @order.next
+    @pre_order = @order.previous @order.order_type.previous
+    @next_order = @order.next @order.order_type.next
     @order_items = @order.order_items
     @sum_money = @order.sum_money
   end
