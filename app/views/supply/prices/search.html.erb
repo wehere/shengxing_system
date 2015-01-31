@@ -1,4 +1,10 @@
-<br/><br/>
+<script type="text/javascript">
+    $(function(){
+//        $("#go").click();
+        document.getElementById("go").click();
+    });
+</script>
+<br/><br/><a id="go" href="#pos_<%= @pos_id %>">GO</a>
 <%= form_tag search_supply_prices_path, method: :post do %>
 <%= label_tag 'year_month_id', '月份' %>
 <%= select_tag 'year_month_id', options_from_collection_for_select(@year_months, 'id', 'val', @year_month_id) %>

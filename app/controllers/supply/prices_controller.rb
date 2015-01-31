@@ -74,7 +74,7 @@ class Supply::PricesController < BaseController
     @customer_id = @old_price.customer_id
     @year_month_id = @old_price.year_month_id
     @search_results = company.supply_prices.where(customer_id: @customer_id, year_month_id: @year_month_id, is_used: true)
-    @pos_id = params[:pos_id]
+    @pos_id = params[:pos_id].to_i - 1
     render :search
   end
 
