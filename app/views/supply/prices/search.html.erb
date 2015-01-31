@@ -24,10 +24,10 @@
           <tr id="pos_<%= index %>">
             <%= form_tag supply_price_path(price.id), method: :patch do %>
                 <td>
-                <%= price.customer.simple_name %>
+                <%= price.customer.blank? ? '':  price.customer.simple_name %>
                 </td>
                 <td>
-                <%= price.product.chinese_name %>
+                <%= price.product.blank? ? '' : price.product.chinese_name %>
                 </td>
                 <td>
                 <%= text_field_tag "submitted_spec", price.true_spec, size: 6 %>
