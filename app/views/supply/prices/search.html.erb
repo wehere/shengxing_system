@@ -1,10 +1,10 @@
 <script type="text/javascript">
     $(function(){
-//        $("#go").click();
         document.getElementById("go").click();
     });
 </script>
-<br/><br/><a id="go" href="#pos_<%= @pos_id %>">GO</a>
+<a id="go" href="#pos_<%= @pos_id %>">GO</a>
+<br/><br/><br/>
 <%= form_tag search_supply_prices_path, method: :post do %>
 <%= label_tag 'year_month_id', '月份' %>
 <%= select_tag 'year_month_id', options_from_collection_for_select(@year_months, 'id', 'val', @year_month_id) %>
@@ -46,4 +46,4 @@
         <% end %>
     </table>
 <% end %>
-<h1 id="pos_last"></h1>
+<%= link_to '回到顶部', '#go' %>
