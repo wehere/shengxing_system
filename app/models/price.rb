@@ -11,7 +11,7 @@ class Price < ActiveRecord::Base
   validate :validate
 
   def validate
-    errors.add(:product_id, "该产品价格已经存在！#{product_id}:#{customer_id}") if Price.where(product_id: product_id, customer_id: customer_id, supplier_id: supplier_id, year_month_id: year_month_id, is_used: true).count >= 1
+    errors.add(:product_id, "该产品:#{product_id}价格已经存在！#{year_month_id}:#{product_id}:#{customer_id}") if Price.where(product_id: product_id, customer_id: customer_id, supplier_id: supplier_id, year_month_id: year_month_id, is_used: true).count >= 1
   end
 
   def real_price
@@ -21,13 +21,12 @@ class Price < ActiveRecord::Base
   def generate_next_month next_month_id
     return nil if Price.exists? year_month_id: next_month_id, customer_id: self.customer_id, product_id: self.product_id, supplier_id: self.supplier_id, is_used: true
     new_price = self.dup
-    new_price.update_attributes year_month_id: next_month_id
-    new_price.save!
+    new_price.update_attributes! year_month_id: next_month_id
   end
 
   def self.generate_next_month_batch prices, next_month_id
     self.transaction do
-      prices.each do |price|
+      prices.order(:customer_id).each do |price|
         price.generate_next_month next_month_id
       end
     end
