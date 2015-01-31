@@ -13,7 +13,7 @@ class Supply::PricesController < BaseController
       if request.post?
         @customer_id = params[:customer_id]
         @year_month_id = params[:year_month_id]
-        @search_results = company.supply_prices.where(customer_id: params[:customer_id], year_month_id: params[:year_month_id], is_used: true)
+        @search_results = company.supply_prices.where(customer_id: params[:customer_id], year_month_id: params[:year_month_id], is_used: true).order(:product_id)
       else
         @customer_id = params[:customer_id]
         @year_month_id = YearMonth.current_year_month.id
@@ -73,7 +73,7 @@ class Supply::PricesController < BaseController
     @year_months = YearMonth.all
     @customer_id = @old_price.customer_id
     @year_month_id = @old_price.year_month_id
-    @search_results = company.supply_prices.where(customer_id: @customer_id, year_month_id: @year_month_id, is_used: true)
+    @search_results = company.supply_prices.where(customer_id: @customer_id, year_month_id: @year_month_id, is_used: true).order(:product_id)
     @pos_id = params[:pos_id].to_i - 1
     render :search
   end
