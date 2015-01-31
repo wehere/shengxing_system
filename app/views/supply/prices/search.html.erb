@@ -34,7 +34,7 @@
                 </td>
                 <%= hidden_field_tag 'pos_id', index %>
                 <td>
-                <%= text_field_tag "submitted_price", price.price, size: 7 %>
+                <%= text_field_tag "submitted_price", price.price, size: 7, class: 'price_text_field', onclick: "select();" %>
                 <%= submit_tag '保存修改', class: 'btn btn-primary' %>
                 </td>
                 <td id="msg_<%= price.id %>" style="text-align: left">
