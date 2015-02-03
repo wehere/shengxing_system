@@ -5,6 +5,9 @@
         {
             window.location.href=window.location.href+"?t=<%= Time.now.to_s(:number) %>";
         }
+        var special_text_fields = $(".special_text_field");
+        special_text_fields[0].focus();
+
         $("input").keypress(function (e) {
             var keyCode = e.keyCode ? e.keyCode : e.which ? e.which : e.charCode;
             if (keyCode == 13){
