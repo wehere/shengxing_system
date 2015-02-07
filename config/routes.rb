@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     resources :sheets do
       collection do
         post :export_order_total_for_specified_days
+        post :export_order_total_for_specified_month
       end
       member do
         post :change_stores
