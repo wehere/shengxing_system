@@ -151,6 +151,7 @@ class Order < ActiveRecord::Base
           orders.each do |order|
             sum_money_of_one_day += order.sum_money
           end
+          puts "***********************#{sum_money_of_one_day}*****************************"
           sheet1.row(current_row).set_format(current_col,in_left)
           sheet1.row(current_row)[current_col] = sum_money_of_one_day == 0 ? '' : sum_money_of_one_day
           sum_money_of_one_month += sum_money_of_one_day
