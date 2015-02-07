@@ -135,44 +135,46 @@ class Order < ActiveRecord::Base
     sheet1.row(current_row).set_format(0,in_left)
     sheet1.row(current_row).set_format(1,in_left)
     sheet1.row(current_row)[0] = '门店小计'
-    # current_col = 2
-    # sum_money_of_all = 0
-    # Company.find(supplier_id).customers.each do |customer|
-    #   customer.stores.each do |store|
-    #     sheet1.row(1).set_format(current_col,in_left)
-    #     sheet1.row(1)[current_col] = customer.simple_name
-    #     sheet1.row(2).set_format(current_col,in_left)
-    #     sheet1.row(2)[current_col] = store.name
-    #     current_row = 3
-    #     sum_money_of_one_month = 0
-    #     for reach_date in start_date..end_date do
-    #       orders = Order.valid_orders.where(customer_id: customer.id, store_id: store.id, supplier_id: supplier_id, reach_order_date: reach_date)
-    #       sum_money_of_one_day = 0
-    #       orders.each do |order|
-    #         sum_money_of_one_day += order.sum_money
-    #       end
-    #       puts "***********************#{sum_money_of_one_day}*****************************"
-    #       sheet1.row(current_row).set_format(current_col,in_left)
-    #       sheet1.row(current_row)[current_col] = sum_money_of_one_day == 0 ? '' : sum_money_of_one_day
-    #       sum_money_of_one_month += sum_money_of_one_day
-    #       current_row += 1
-    #     end
-    #     sheet1.row(current_row).set_format(current_col,in_left)
-    #     sheet1.row(current_row)[current_col] = sum_money_of_one_month == 0 ? '' : sum_money_of_one_month
-    #     sum_money_of_all += sum_money_of_one_month
-    #     current_col += 1
-    #   end
-    # end
-    # sheet1.merge_cells(0,0,0,current_col-1)
-    # 0.upto current_col-1 do |x|
-    #   sheet1.row(0).set_format(x, in_center)
-    # end
-    # sheet1.row(0)[0] = "#{Company.find(supplier_id).simple_name}从#{start_date}至#{end_date}账目明细"
-    # sheet1.merge_cells(current_row+1,0,current_row+1,current_col-1)
-    # 0.upto current_col-1 do |x|
-    #   sheet1.row(current_row+1).set_format(x, in_center)
-    # end
-    # sheet1.row(current_row+1)[0] = "#{start_date}至#{end_date}汇总:#{sum_money_of_all}"
+    current_col = 2
+    sum_money_of_all = 0
+    # num = 1
+    Company.find(supplier_id).customers.each do |customer|
+      customer.stores.each do |store|
+        sheet1.row(1).set_format(current_col,in_left)
+        sheet1.row(1)[current_col] = customer.simple_name
+        sheet1.row(2).set_format(current_col,in_left)
+        sheet1.row(2)[current_col] = store.name
+        current_row = 3
+        sum_money_of_one_month = 0
+        for reach_date in start_date..end_date do
+          orders = Order.valid_orders.where(customer_id: customer.id, store_id: store.id, supplier_id: supplier_id, reach_order_date: reach_date)
+          sum_money_of_one_day = 0
+          orders.each do |order|
+            sum_money_of_one_day += order.sum_money
+          end
+          # puts "***********************#{num}#{sum_money_of_one_day}*****************************"
+          # num += 1
+          sheet1.row(current_row).set_format(current_col,in_left)
+          sheet1.row(current_row)[current_col] = sum_money_of_one_day == 0 ? '' : sum_money_of_one_day
+          sum_money_of_one_month += sum_money_of_one_day
+          current_row += 1
+        end
+        sheet1.row(current_row).set_format(current_col,in_left)
+        sheet1.row(current_row)[current_col] = sum_money_of_one_month == 0 ? '' : sum_money_of_one_month
+        sum_money_of_all += sum_money_of_one_month
+        current_col += 1
+      end
+    end
+    sheet1.merge_cells(0,0,0,current_col-1)
+    0.upto current_col-1 do |x|
+      sheet1.row(0).set_format(x, in_center)
+    end
+    sheet1.row(0)[0] = "#{Company.find(supplier_id).simple_name}从#{start_date}至#{end_date}账目明细"
+    sheet1.merge_cells(current_row+1,0,current_row+1,current_col-1)
+    0.upto current_col-1 do |x|
+      sheet1.row(current_row+1).set_format(x, in_center)
+    end
+    sheet1.row(current_row+1)[0] = "#{start_date}至#{end_date}汇总:#{sum_money_of_all}"
     file_path = "#{start_date.to_date.to_s(:db)}至#{end_date.to_date.to_s(:db)}单据明细.xls"
     book.write file_path
     file_path
