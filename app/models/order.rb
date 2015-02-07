@@ -174,7 +174,7 @@ class Order < ActiveRecord::Base
     0.upto current_col-1 do |x|
       sheet1.row(current_row+1).set_format(x, in_center)
     end
-    sheet1.row(current_row+1)[0] = "#{start_date}至#{end_date}汇总:#{sum_money_of_all}"
+    sheet1.row(current_row+1)[0] = "#{start_date}至#{end_date}汇总:#{sum_money_of_all.round(2)}"
     file_path = "#{start_date.to_date.to_s(:db)}至#{end_date.to_date.to_s(:db)}单据明细.xls"
     book.write file_path
     file_path
