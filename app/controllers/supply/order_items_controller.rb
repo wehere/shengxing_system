@@ -13,4 +13,23 @@ class Supply::OrderItemsController < BaseController
     @order_item.change_price params[:order_item_modal_price]
     @order_item.update_money
   end
+
+  def search
+    supplier_id = current_user.company.id
+    @customers = current_user.company.customers
+    if request.post?
+      @product_name = params[:product_name]
+      @start_date = params[:start_date]
+      @end_date = params[:end_date]
+      @customer_id = params[:customer_id]
+      @order_items = OrderItem.query_order_items params[:product_name], params[:start_date], params[:end_date], params[:customer_id], supplier_id
+    else
+      @product_name = ''
+      @start_date = Time.now.to_date - 7.days
+      @end_date = Time.now.to_date
+      @customer_id = current_user.company.customers.first.id
+      @order_items = nil
+    end
+  end
+
 end

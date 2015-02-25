@@ -8,6 +8,7 @@ class Purchase::OrdersController < BaseController
     @orders = @orders.where(supplier_id: params[:supplier_id]) unless params[:supplier_id].blank?
     @orders = @orders.where(store_id: params[:store_id]) unless params[:store_id].blank?
     @orders = @orders.paginate(page: params[:page], per_page: 31)
+    @orders = @orders.order(:reach_order_date)
   end
 
   def edit

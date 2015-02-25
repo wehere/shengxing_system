@@ -49,7 +49,12 @@ Rails.application.routes.draw do
       end
     end
     resources :order_types, only: [:index, :create, :destroy, :new]
-    resources :order_items
+    resources :order_items do
+      collection do
+        post :search
+        get :search
+      end
+    end
   end
 
   # 游客

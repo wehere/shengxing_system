@@ -4,7 +4,7 @@ class OrderMessageMailer < ApplicationMailer
   def order_message_email customer_id, supplier_id, content, need_reach_date
     @content = content
     @customer = Company.find(customer_id)
-    @need_reach_date = need_reach_date.to_s(:db)
+    @need_reach_date = need_reach_date.to_date.to_s(:db)
     address = Company.find(supplier_id).users.collect {|u| u.email}
     mail(to: address.shift, recient: address, subject: "#{@customer.simple_name}的订单")
   end

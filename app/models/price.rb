@@ -91,4 +91,17 @@ class Price < ActiveRecord::Base
     book.write file_path
     file_path
   end
+
+  def self.customer_query_price customer_id, supplier_id, product_name, year_month_id
+    sql = <<-EOF
+      select * from prices left join products
+      on prices.product_id = products.id
+      where prices.customer_id = #{customer_id}
+      and prices.supplier_id = #{supplier_id}
+      and prices.is_used = 1
+      and products.chinese_name like '%#{product_name}%'
+      and prices.year_month_id = #{year_month_id}
+    EOF
+    Price.find_by_sql(sql)
+  end
 end

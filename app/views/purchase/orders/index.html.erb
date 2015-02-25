@@ -11,6 +11,7 @@
 </div>
 <table class="table">
   <thead><th>订单ID</th><th>送货单位</th><th>我的门店</th><th>单据类型</th><th>到货日期</th><th>金额</th></thead>
+  <% month_money = 0.0 %>
   <% @orders.each do |order| %>
       <tr>
         <td>
@@ -29,14 +30,18 @@
           <%= order.reach_order_date %>
         </td>
         <td>
-          <%= order.sum_money %>
+          <b><%= order.sum_money %></b>
+          <% month_money += order.sum_money %>
         </td>
         <td>
-          <%= link_to '查看明细',edit_purchase_order_path(order.id),remote: true%>
+          <%= link_to '查看明细',edit_purchase_order_path(order.id),remote: true%>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <%= link_to 'show', purchase_order_path(order.id) %>
         </td>
       </tr>
   <% end %>
+  <tr>
+    <td colspan="5"><b>月金额</b></td><td><b><%= month_money.round(2) %></b></td><td></td><td></td>
+  </tr>
 </table>
 
 <!-- Modal -->
