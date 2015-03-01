@@ -29,6 +29,21 @@
 <div class="row">
   <div class="col-sm-7">
     <%= render partial: 'link_edit_order' %>
+    <div class="row">
+      <div class="col-sm-1 text-right">
+        <h5>ID</h5>
+      </div>
+      <div class="col-sm-1">
+        <%= text_field_tag 'order_id', '', size: 10, style: "height: 35px;" %>
+
+      </div>
+      <!--<div class="col-sm-2" style="background-color: #0063dc" onclick="jump_specified_order()">-->
+      <!--<h5>跳转到该单据</h5>-->
+      <!--</div>-->
+      <div class="col-sm-2">
+        <%= link_to "跳转到该单据", "#", class: 'btn btn-primary', id: "jump_order" %>
+      </div>
+    </div>
     <h3>
     <%= @order.customer.simple_name %>
     <%= @order.store.name %>
@@ -155,3 +170,28 @@
 
 
 </div>
+
+<script language="javascript">
+    $("#order_id").focusout(
+            function() {
+                var id = $("#order_id").val();
+                var re = /^[1-9]+[0-9]*]*$/;
+                if (re.test(id)) {
+                    $("#jump_order").attr("href", "/supply/orders/"+id+"/edit");}
+                else {
+                    alert("ID必须是正整数");}
+            }
+    );
+    function jump_specified_order(){
+        var id = $("#order_id").val();
+        $.ajax({
+            type: 'post',
+            url: "/supply/orders/"+id+"/edit",
+            dataType: 'html',
+            success: function(html)
+            {
+                $("body").html(html);
+            }
+        });
+    }
+</script>
