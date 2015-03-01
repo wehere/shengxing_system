@@ -179,4 +179,8 @@ class Order < ActiveRecord::Base
     book.write file_path
     file_path
   end
+
+  def deleted?
+    self.delete_flag?
+  end
 end

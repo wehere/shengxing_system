@@ -50,6 +50,9 @@
     <%= @order.order_type.name %>
     <%= @order.reach_order_date %>
     </h3>
+    <% if @order.deleted? %>
+        <h1 style="color: red">此单据已经被删除了！</h1>
+    <% end %>
     <h1>
     <%= form_tag supply_order_path, method: :patch do %></h1>
     <%= hidden_field_tag 'order_id', @order.id %>
