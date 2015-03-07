@@ -17,7 +17,7 @@ class Company < ActiveRecord::Base
   has_one :vip_info, foreign_key: :company_id
 
   validates_uniqueness_of :simple_name, message: '客户简称已经被占用，请填写其他简称！'
-  validates_presence_of :full_name, message: '客户全称已经被占用，请填写其他全称！'
+  validates_uniqueness_of :full_name, message: '客户全称已经被占用，请填写其他全称！'
   def all_prices
     Price.where("customer_id in ( ? )", self.customers.ids).where(is_used: true)
   end
