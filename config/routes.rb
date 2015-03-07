@@ -27,6 +27,8 @@ Rails.application.routes.draw do
       collection do
         post :index
         post :create_one
+        get :import_products_from_xls
+        post :import_products_from_xls
       end
     end
     resources :prices do

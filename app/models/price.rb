@@ -45,7 +45,8 @@ class Price < ActiveRecord::Base
       sheet.each_with_index do |row, index|
         next if index==0
         product_name = row[1]
-        product = Product.find_by_chinese_name(product_name)
+        # product = Product.find_by_chinese_name(product_name)
+        product = Product.where(chinese_name: product_name, supplier_id: supplier_id).first
         if product.blank?
           message += product_name + '不在产品列表中'
           next

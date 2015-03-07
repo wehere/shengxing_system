@@ -53,6 +53,15 @@ class Supply::ProductsController < BaseController
     end
   end
 
+  def import_products_from_xls
+    if request.post?
+      supplier_id = current_user.company.id
+      file_io = params[:products_xls]
+      flash[:notice] = Product.import_products_from_xls supplier_id, file_io
+      redirect_to import_products_from_xls_supply_products_path
+    end
+  end
+
   private
     def product_params
       params.require(:product).permit([:english_name,:chinese_name,:spec,:simple_abc])
