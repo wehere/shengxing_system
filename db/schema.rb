@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150118130728) do
+ActiveRecord::Schema.define(version: 20150307090207) do
 
   create_table "comments", force: true do |t|
     t.integer  "order_id"
@@ -144,6 +144,23 @@ ActiveRecord::Schema.define(version: 20150118130728) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+
+  create_table "vip_authorities", force: true do |t|
+    t.integer  "vip_type"
+    t.integer  "customer_count"
+    t.integer  "print_able_per_day_count"
+    t.integer  "product_count"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "vip_infos", force: true do |t|
+    t.integer  "company_id"
+    t.integer  "vip_type"
+    t.date     "valid_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "year_months", force: true do |t|
     t.string   "val"

@@ -1,0 +1,19 @@
+<br/>
+<%= link_to '创建客户', new_supply_customer_path, class: 'btn btn-primary' %>
+<br/>
+<table class="table">
+  <thead>
+    <th>客户简称</th><th>客户全称</th><th>联系电话</th><th>联系地址</th>
+  </thead>
+  <tbody>
+    <% @customers.each do |customer| %>
+      <tr>
+        <td><%= customer.simple_name %></td>
+        <td><%= customer.full_name %></td>
+        <td><%= customer.phone %></td>
+        <td><%= customer.address %></td>
+        <td><%= link_to '添加门店' %>&nbsp;&nbsp;<%= link_to '添加单据类型' %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -14,12 +14,38 @@ class Company < ActiveRecord::Base
   has_many :in_orders, foreign_key: 'supplier_id', class_name: 'Order' #自己收到的所有订单
   has_many :in_order_items, through: :in_orders, class_name: 'OrderItem'
   has_many :products, foreign_key: :supplier_id
+  has_one :vip_info, foreign_key: :company_id
+
+  validates_uniqueness_of :simple_name, message: '客户简称已经被占用，请填写其他简称！'
+  validates_presence_of :full_name, message: '客户全称已经被占用，请填写其他全称！'
   def all_prices
     Price.where("customer_id in ( ? )", self.customers.ids).where(is_used: true)
   end
 
   def all_orders
     self.customers.collect { |cus| cus.orders }.flatten!
+  end
+
+  def vip_type
+    return 0 if self.vip_info.blank? || self.vip_info.expired?
+    self.vip_info.vip_type
+  end
+
+  def customer_count
+    self.customers.count
+  end
+
+  def create_customer params
+    Company.transaction do
+      vip_type = self.vip_type
+      if self.customer_count <= VipAuthority.where(vip_type: vip_type).first.customer_count
+        puts params
+        customer = Company.create! params
+        customer.supplies << self
+      else
+        BusinessException.raise '客户数量已经达到上限！'
+      end
+    end
   end
 
 end

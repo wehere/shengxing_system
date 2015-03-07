@@ -12,6 +12,7 @@ Rails.application.routes.draw do
 
   # 供应方
   namespace :supply do
+    resources :customers
     resources :sheets do
       collection do
         post :export_order_total_for_specified_days
