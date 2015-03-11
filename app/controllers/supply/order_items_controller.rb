@@ -25,9 +25,9 @@ class Supply::OrderItemsController < BaseController
       @order_items = OrderItem.query_order_items params[:product_name], params[:start_date], params[:end_date], params[:customer_id], supplier_id
     else
       @product_name = ''
-      @start_date = Time.now.to_date - 7.days
+      @start_date = Time.now.to_date - 30.days
       @end_date = Time.now.to_date
-      @customer_id = current_user.company.customers.first.id
+      @customer_id = nil #current_user.company.customers.first.id
       @order_items = nil
     end
   end

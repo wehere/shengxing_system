@@ -18,11 +18,13 @@ class OrderItem < ActiveRecord::Base
       left join products on products.id = order_items.product_id
       left join orders on orders.id = order_items.order_id
       where products.`chinese_name` like '%#{product_name}%'
-      and orders.`reach_order_date` between '#{order_start_date}' and '#{order_end_date}'
-      and orders.`customer_id` = #{customer_id}
-      and orders.`supplier_id` = #{supplier_id}
-      and (orders.`delete_flag` is null or orders.`delete_flag` = 0 )
     EOF
+    sql += " and orders.`reach_order_date` >= '#{order_start_date}' " unless order_start_date.blank?
+    sql += " and orders.`reach_order_date` <= '#{order_end_date}' " unless order_end_date.blank?
+    sql += " and orders.`customer_id` = #{customer_id} " unless customer_id.blank?
+    sql += " and orders.`supplier_id` = #{supplier_id} " unless supplier_id.blank?
+    sql += " and (orders.`delete_flag` is null or orders.`delete_flag` = 0 ) "
+
     OrderItem.find_by_sql(sql)
   end
 end

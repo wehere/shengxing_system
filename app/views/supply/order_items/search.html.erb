@@ -5,7 +5,7 @@
 <%= label_tag 'end_date', '结束日期' %>
 <%= date_field_tag 'end_date', @end_date %>
 <%= label_tag 'customer_id', '客户名称' %>
-<%= select_tag 'customer_id', options_from_collection_for_select( @customers, 'id', 'simple_name', @customer_id) %>
+<%= select_tag 'customer_id', options_from_collection_for_select( @customers, 'id', 'simple_name', @customer_id), include_blank: true %>
 <%= label_tag 'product_name', '产品名称' %>
 <%= text_field_tag 'product_name', @product_name %>
 <%= submit_tag '搜索', class: 'btn btn-primary' %>
