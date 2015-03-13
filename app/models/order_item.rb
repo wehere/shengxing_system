@@ -38,6 +38,7 @@ class OrderItem < ActiveRecord::Base
       where prices.price =0 and prices.is_used=1
       and (orders.delete_flag is null or orders.delete_flag = 0)
       and orders.supplier_id = #{supplier_id}
+      and orders.reach_order_date > '#{Time.now.to_date.last_month.at_beginning_of_month.to_s}'
     EOF
     OrderItem.find_by_sql(sql)
   end
