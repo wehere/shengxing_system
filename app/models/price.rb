@@ -8,7 +8,7 @@ class Price < ActiveRecord::Base
   has_many :order_items
   scope :prices_in, ->(year_month_id) { where(year_month_id: year_month_id)}
   scope :available, -> { where(is_used: 1) }
-  validate :validate
+  validate :validate, on: :create
 
   def validate
     errors.add(:product_id, "该产品:#{product_id}价格已经存在！#{year_month_id}:#{product_id}:#{customer_id}") if Price.where(product_id: product_id, customer_id: customer_id, supplier_id: supplier_id, year_month_id: year_month_id, is_used: true).count >= 1

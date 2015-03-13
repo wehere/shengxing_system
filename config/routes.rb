@@ -43,6 +43,7 @@ Rails.application.routes.draw do
       end
       member do
         post :export_xls_of_prices
+        post :true_update_price
       end
     end
     resources :orders do
@@ -56,6 +57,7 @@ Rails.application.routes.draw do
       collection do
         post :search
         get :search
+        get :null_price
       end
     end
   end

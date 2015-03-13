@@ -32,4 +32,13 @@ class Supply::OrderItemsController < BaseController
     end
   end
 
+  def null_price
+    supplier_id = current_user.company.id
+    @order_items = OrderItem.find_null_price supplier_id
+  end
+
+  def make_up_price
+
+  end
+
 end

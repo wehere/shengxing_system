@@ -78,6 +78,18 @@ class Supply::PricesController < BaseController
     render :search
   end
 
+  def true_update_price
+    begin
+      true_price = Price.find(params[:id])
+      true_price.update_attributes! price: params[:price].to_f, true_spec: params[:true_spec]
+      flash[:notice] = '更新成功'
+      redirect_to null_price_supply_order_items_path
+    rescue Exception=>e
+      flash[:alert] = dispose_exception e
+      redirect_to null_price_supply_order_items_path
+    end
+  end
+
   def generate_next_month
     begin
       YearMonth.generate_recent_year_months

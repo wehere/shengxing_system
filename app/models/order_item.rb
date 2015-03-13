@@ -27,4 +27,18 @@ class OrderItem < ActiveRecord::Base
 
     OrderItem.find_by_sql(sql)
   end
+
+  def self.find_null_price supplier_id
+    sql = <<-EOF
+      select * from order_items
+      left join orders on orders.id = order_items.order_id
+      left join prices on prices.id = order_items.price_id
+      left join companies on companies.id= orders.customer_id
+
+      where prices.price =0 and prices.is_used=1
+      and (orders.delete_flag is null or orders.delete_flag = 0)
+      and orders.supplier_id = #{supplier_id}
+    EOF
+    OrderItem.find_by_sql(sql)
+  end
 end

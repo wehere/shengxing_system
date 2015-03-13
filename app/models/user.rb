@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
   belongs_to :company
   has_many :comments
+  has_many :users
   delegate :simple_name, to: :company, prefix: true, allow_nil: true
 
 end
