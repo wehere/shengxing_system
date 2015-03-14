@@ -30,7 +30,7 @@ class OrderItem < ActiveRecord::Base
 
   def self.find_null_price supplier_id
     sql = <<-EOF
-      select * from order_items
+      select order_items.* from order_items
       left join orders on orders.id = order_items.order_id
       left join prices on prices.id = order_items.price_id
       left join companies on companies.id= orders.customer_id
@@ -38,8 +38,13 @@ class OrderItem < ActiveRecord::Base
       where prices.price =0 and prices.is_used=1
       and (orders.delete_flag is null or orders.delete_flag = 0)
       and orders.supplier_id = #{supplier_id}
+      and (order_items.delete_flag is null or order_items.delete_flag = 0)
       and orders.reach_order_date > '#{Time.now.to_date.last_month.at_beginning_of_month.to_s}'
     EOF
     OrderItem.find_by_sql(sql)
+  end
+
+  def change_delete_status
+    self.update_attribute :delete_flag, !self.delete_flag?
   end
 end

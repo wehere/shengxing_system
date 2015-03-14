@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150307090207) do
+ActiveRecord::Schema.define(version: 20150314045056) do
 
   create_table "comments", force: true do |t|
     t.integer  "order_id"
@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(version: 20150307090207) do
     t.float    "money",       limit: 24
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "delete_flag"
   end
 
   create_table "order_types", force: true do |t|

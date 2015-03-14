@@ -59,6 +59,9 @@ Rails.application.routes.draw do
         get :search
         get :null_price
       end
+      member do
+        post :change_delete_flag
+      end
     end
   end
 

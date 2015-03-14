@@ -2,7 +2,7 @@
 <table class="table">
   <thead>
     <th>ID</th><td>打单者</td><th>单据ID</th><th>到货日期</th><th>单位</th>
-    <th>产品名称</th><th width="20">规格</th><th width="20">价格</th><th>操作</th>
+    <th>产品名称</th><th width="20">规格</th><th width="20">价格</th><th width="50">操作</th>
   </thead>
   <tbody>
     <% @order_items.each do |order_item| %>
@@ -17,6 +17,7 @@
               <td><%= text_field_tag 'true_spec', order_item.price.true_spec, size: 10 %></td>
               <td><%= text_field_tag 'price', order_item.price.price, size: 10 %></td>
               <td><%= submit_tag '更新价格', class: 'btn btn-primary' %></td>
+              <td><%= link_to '作废', change_delete_flag_supply_order_item_path(order_item.id), method: :post, class: 'btn btn-primary' %></td>
           <% end %>
         </tr>
     <% end %>

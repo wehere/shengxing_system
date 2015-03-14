@@ -37,8 +37,15 @@ class Supply::OrderItemsController < BaseController
     @order_items = OrderItem.find_null_price supplier_id
   end
 
-  def make_up_price
-
+  def change_delete_flag
+    begin
+      OrderItem.find(params[:id]).change_delete_status
+      flash[:notice] = "作废成功。"
+      redirect_to null_price_supply_order_items_path
+    rescue Exception=>e
+      flash[:alert] = dispose_exception e
+      redirect_to null_price_supply_order_items_path
+    end
   end
 
 end
