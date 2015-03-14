@@ -17,8 +17,8 @@
               <td><%= text_field_tag 'true_spec', order_item.price.true_spec, size: 10 %></td>
               <td><%= text_field_tag 'price', order_item.price.price, size: 10 %></td>
               <td><%= submit_tag '更新价格', class: 'btn btn-primary' %></td>
-              <td><%= link_to '作废', change_delete_flag_supply_order_item_path(order_item.id), method: :post, class: 'btn btn-primary' %></td>
           <% end %>
+              <td><%= link_to '作废', change_delete_flag_supply_order_item_path(order_item.id), method: :post, class: 'btn btn-primary' %></td>
         </tr>
     <% end %>
   </tbody>
