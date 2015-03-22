@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150314045056) do
+ActiveRecord::Schema.define(version: 20150322132549) do
 
   create_table "comments", force: true do |t|
     t.integer  "order_id"
@@ -37,6 +37,14 @@ ActiveRecord::Schema.define(version: 20150314045056) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "delete_flag"
+  end
+
+  create_table "general_products", force: true do |t|
+    t.string   "name"
+    t.integer  "seller_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "supplier_id"
   end
 
   create_table "messages", force: true do |t|
@@ -108,6 +116,17 @@ ActiveRecord::Schema.define(version: 20150314045056) do
     t.string   "chinese_name"
     t.string   "simple_abc"
     t.string   "spec"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "supplier_id"
+    t.integer  "general_product_id"
+  end
+
+  create_table "sellers", force: true do |t|
+    t.string   "name"
+    t.string   "shop_name"
+    t.string   "phone"
+    t.string   "address"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "supplier_id"

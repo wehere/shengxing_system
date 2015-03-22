@@ -1,0 +1,19 @@
+<br/>
+<%= link_to '创建卖家', new_supply_seller_path, class: 'btn btn-primary' %>
+<br/>
+<table class="table">
+  <thead>
+    <th>卖家名字</th><th>店铺名称</th><th>手机</th><th>地址</th><th>操作</th>
+  </thead>
+  <tbody>
+    <% @sellers.each do |seller| %>
+        <tr>
+          <td><%= seller.name %></td>
+          <td><%= seller.shop_name %></td>
+          <td><%= seller.phone %></td>
+          <td><%= seller.address %></td>
+          <td><%= link_to '编辑', edit_supply_seller_path(seller.id), class: 'btn btn-primary' %></td>
+        </tr>
+    <% end %>
+  </tbody>
+</table>

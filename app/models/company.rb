@@ -15,6 +15,8 @@ class Company < ActiveRecord::Base
   has_many :in_order_items, through: :in_orders, class_name: 'OrderItem'
   has_many :products, foreign_key: :supplier_id
   has_one :vip_info, foreign_key: :company_id
+  has_many :sellers, foreign_key: :supplier_id
+  has_many :general_products, foreign_key: :supplier_id
 
   validates_uniqueness_of :simple_name, message: '客户简称已经被占用，请填写其他简称！'
   validates_uniqueness_of :full_name, message: '客户全称已经被占用，请填写其他全称！'
