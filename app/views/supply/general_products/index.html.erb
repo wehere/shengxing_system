@@ -1,0 +1,18 @@
+<br/>
+<%= link_to '创建通用产品', new_supply_general_product_path, class: 'btn btn-primary' %>
+<br/>
+<table class="table">
+  <thead>
+  <th>通用产品ID</th><th>通用产品名称</th><th>卖货人</th><th>操作</th>
+  </thead>
+  <tbody>
+  <% @general_products.each do |general_product| %>
+      <tr>
+        <td><%= general_product.id %></td>
+        <td><%= general_product.name %></td>
+        <td><%= general_product.seller.name rescue '' %></td>
+        <td><%= link_to '编辑', edit_supply_general_product_path(general_product.id), class: 'btn btn-primary' %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>

@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   # 供应方
   namespace :supply do
     resources :sellers
+    resources :general_products
     resources :customers
     resources :sheets do
       collection do
