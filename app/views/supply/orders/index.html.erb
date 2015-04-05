@@ -1,5 +1,5 @@
 <br/>
-<%= form_tag supply_orders_path, method: :post do %>
+<%= form_tag supply_orders_path, method: :get do %>
     <%= label_tag 'date_between', '时间区间' %>
     <%= date_field_tag 'date_start', @date_start %>
     <%= label_tag 'to', '至' %>

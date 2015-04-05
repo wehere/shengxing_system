@@ -50,7 +50,6 @@ Rails.application.routes.draw do
     end
     resources :orders do
       collection do
-        post :index
         post :comment
       end
     end
@@ -60,6 +59,7 @@ Rails.application.routes.draw do
         post :search
         get :search
         get :null_price
+        get :prices_search
       end
       member do
         post :change_delete_flag

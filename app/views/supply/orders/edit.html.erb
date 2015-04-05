@@ -96,6 +96,28 @@
     </div>
     <% end %>
     <br/>
+    <div class="row">
+      <div class="col-sm-2 text-right">
+        <%= link_to '添加新品项', "/supply/order_items/new?order_id=#{@order.id}", class: 'btn btn-primary' %>
+      </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-sm-1 text-right">
+          <h5>ID</h5>
+        </div>
+        <div class="col-sm-1">
+          <%= text_field_tag 'order_id_2', '', size: 10, style: "height: 35px;" %>
+
+        </div>
+        <!--<div class="col-sm-2" style="background-color: #0063dc" onclick="jump_specified_order()">-->
+        <!--<h5>跳转到该单据</h5>-->
+        <!--</div>-->
+        <div class="col-sm-2">
+          <%= link_to "跳转到该单据", "#", class: 'btn btn-primary', id: "jump_order_2" %>
+        </div>
+    </div>
+    <br/>
     <%= render partial: 'link_edit_order' %>
   </div>
   <div class="col-sm-5">
@@ -181,6 +203,16 @@
                 var re = /^[1-9]+[0-9]*]*$/;
                 if (re.test(id)) {
                     $("#jump_order").attr("href", "/supply/orders/"+id+"/edit");}
+                else {
+                    alert("ID必须是正整数");}
+            }
+    );
+    $("#order_id_2").focusout(
+            function() {
+                var id = $("#order_id_2").val();
+                var re = /^[1-9]+[0-9]*]*$/;
+                if (re.test(id)) {
+                    $("#jump_order_2").attr("href", "/supply/orders/"+id+"/edit");}
                 else {
                     alert("ID必须是正整数");}
             }

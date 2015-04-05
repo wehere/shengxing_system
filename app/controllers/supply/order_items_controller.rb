@@ -1,6 +1,28 @@
 class Supply::OrderItemsController < BaseController
   before_filter :need_login
 
+  def new
+    show_params_of_order_item_form
+  end
+
+  def create
+    begin
+      puts params
+      price = Price.find(params[:price_id])
+      OrderItem.create_order_item order_item_param.merge(product_id: price.product.id)
+      redirect_to edit_supply_order_path(params[:order_id])
+    rescue Exception=> e
+      flash[:alert] = dispose_exception e
+      show_params_of_order_item_form
+      render :new
+    end
+  end
+
+  def prices_search
+    show_params_of_order_item_form
+    render :new
+  end
+
   def edit
     @order_item = OrderItem.find(params[:id])
   end
@@ -48,4 +70,21 @@ class Supply::OrderItemsController < BaseController
     end
   end
 
+  private
+    def show_params_of_order_item_form
+      @product_name = params[:product_name]
+      @order_id = params[:order_id]
+      @price_id = params[:price_id]
+      @plan_weight = params[:plan_weight]
+      @real_weight = params[:real_weight]
+      @order = Order.find(@order_id)
+      year_month_id = YearMonth.specified_year_month(@order.reach_order_date).id
+      @prices = Price.available.prices_in(year_month_id).where(customer_id: @order.customer_id, supplier_id: @order.supplier_id)
+      @prices = @prices.joins(:product).where("products.chinese_name like ? ", "%#{@product_name}%") unless @product_name.blank?
+      @prices = @prices.paginate(page: params[:page], per_page: 10)
+    end
+
+    def order_item_param
+      params.permit(:order_id, :price_id, :real_weight, :plan_weight)
+    end
 end

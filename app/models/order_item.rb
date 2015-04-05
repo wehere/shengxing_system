@@ -4,8 +4,21 @@ class OrderItem < ActiveRecord::Base
   belongs_to :price
   delegate :chinese_name, to: :product, prefix: true, allow_nil: true
   delegate :real_price, to: :price, prefix: false, allow_nil: false
+
+  validates_presence_of :product, message: '不能没有对应的产品。'
+  validates_presence_of :price, message: '不能没有对应的价格。'
+  validates_presence_of :order, message: '不能没有对应的单据。'
+
+  def self.create_order_item option
+    order_item = self.new option
+    order_item.save!
+    order_item.reload
+    order_item.update_money
+    order_item
+  end
+
   def update_money
-    self.update_attribute :money, self.real_price*self.real_weight
+    self.update_attribute :money, (self.real_price*self.real_weight).round(2)
   end
 
   def change_price new_price

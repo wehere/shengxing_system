@@ -4,6 +4,7 @@ class YearMonth < ActiveRecord::Base
   scope :current_year_month, -> { where(val: self.chinese_month_format(Time.now.to_date)).first }
   scope :next_year_month, -> { where(val: self.chinese_month_format(Time.now.to_date.next_month)).first }
   scope :pre_year_month, -> { where(val: self.chinese_month_format(Time.now.to_date.last_month)).first }
+  scope :specified_year_month, ->(true_date) { where(val: self.chinese_month_format(true_date)).first }
 
   def self.generate_recent_year_months
     1.upto(5).each do |t|
