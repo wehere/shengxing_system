@@ -2,7 +2,12 @@ class Supply::OrderItemsController < BaseController
   before_filter :need_login
 
   def new
-    show_params_of_order_item_form
+    begin
+      show_params_of_order_item_form
+    rescue Exception=> e
+      flash[:alert] = dispose_exception e
+      redirect_to new_supply_order_item_path
+    end
   end
 
   def create
@@ -19,8 +24,13 @@ class Supply::OrderItemsController < BaseController
   end
 
   def prices_search
-    show_params_of_order_item_form
-    render :new
+    begin
+      show_params_of_order_item_form
+      render :new
+    rescue Exception=> e
+      flash[:alert] = dispose_exception e
+      redirect_to new_supply_order_item_path
+    end
   end
 
   def edit
@@ -77,11 +87,13 @@ class Supply::OrderItemsController < BaseController
       @price_id = params[:price_id]
       @plan_weight = params[:plan_weight]
       @real_weight = params[:real_weight]
-      @order = Order.find(@order_id)
-      year_month_id = YearMonth.specified_year_month(@order.reach_order_date).id
-      @prices = Price.available.prices_in(year_month_id).where(customer_id: @order.customer_id, supplier_id: @order.supplier_id)
-      @prices = @prices.joins(:product).where("products.chinese_name like ? ", "%#{@product_name}%") unless @product_name.blank?
-      @prices = @prices.paginate(page: params[:page], per_page: 10)
+      unless @order_id.blank?
+        @order = Order.find(@order_id)
+        year_month_id = YearMonth.specified_year_month(@order.reach_order_date).id
+        @prices = Price.available.prices_in(year_month_id).where(customer_id: @order.customer_id, supplier_id: @order.supplier_id)
+        @prices = @prices.joins(:product).where("products.chinese_name like ? ", "%#{@product_name}%") unless @product_name.blank?
+        @prices = @prices.paginate(page: params[:page], per_page: 10)
+      end
     end
 
     def order_item_param

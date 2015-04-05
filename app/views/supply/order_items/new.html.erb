@@ -1,5 +1,19 @@
+
 <% if @order_id.blank? %>
-    <h4>没有选择单据</h4>
+    <br/>
+    <%= form_tag prices_search_supply_order_items_path, method: :get, id: 'order_item_form' do %>
+        <div class="row">
+          <div class="col-sm-2 text-right">
+            <label>单据ID</label>
+          </div>
+          <div class="col-sm-2">
+            <%= text_field_tag 'order_id' %>
+          </div>
+          <div class="col-sm-2">
+            <%= submit_tag '查询品项', class: 'btn btn-primary', id: "submit_button", disabled: 'disabled' %>
+          </div>
+        </div>
+    <% end %>
 <% else %>
     <br/>
     <%= form_tag prices_search_supply_order_items_path, method: :get, id: 'order_item_form' do %>
@@ -92,4 +106,16 @@
         $('#order_item_form').attr('method', 'post');
         $('#order_item_form').submit();
     }
+    $("#order_id").focusout(
+            function() {
+                var id = $("#order_id").val();
+                var re = /^[1-9]+[0-9]*]*$/;
+                if (re.test(id)) {
+                    $("#submit_button").removeAttr("disabled");
+                }
+                else {
+                    $("#submit_button").attr("disabled", 'disabled');
+                    alert("单据ID必须是正整数，请重新输入");
+                }
+            });
 </script>
