@@ -2,11 +2,11 @@ class Supply::GeneralProductsController < BaseController
   before_filter :need_login
 
   def index
-    @general_products = current_user.company.general_products
+    @general_products = current_user.company.general_products.paginate(page: params[:page], per_page: 10)
   end
 
   def new
-    @general_product = ::Supply::GeneralProduct.new
+    @general_product = GeneralProduct.new
     @sellers = current_user.company.sellers
     @seller = @sellers.first
   end
@@ -52,8 +52,33 @@ class Supply::GeneralProductsController < BaseController
     end
   end
 
+  def prepare_link_to_seller
+    show_link_to_seller_params
+  end
+
+  def do_link_to_seller
+    begin
+      GeneralProduct.find(params[:general_product_id]).update_attribute :seller_id, params[:seller_id]
+      flash[:notice] = '关联卖货人成功。'
+      redirect_to supply_general_products_path
+    rescue Exception=>e
+      flash[:alert] = dispose_exception e
+      show_link_to_seller_params
+      render :prepare_link_to_seller
+    end
+  end
+
   def destroy
 
   end
+
+  private
+    def show_link_to_seller_params
+      @name = params[:name]
+      @general_product_id = params[:general_product_id]
+      @seller_id = params[:seller_id]
+      @sellers = @name.blank? ? current_user.company.sellers : Seller.where("name like ?", "%#{@name}%")
+      @sellers = @sellers.paginate(page: params[:page], per_page: 10)
+    end
 
 end

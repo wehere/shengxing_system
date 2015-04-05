@@ -6,6 +6,7 @@
     <%= text_field_tag 'name', @general_product.name %>
   </div>
 </div>
+<br/>
 <div class="row">
   <div class="col-sm-1 text-right">
     <label>选择卖货人</label>
@@ -14,6 +15,7 @@
     <%= select_tag 'seller_id', options_from_collection_for_select( @sellers, 'id', 'name', (@seller.id rescue '')) %>
   </div>
 </div>
+<br/>
 <div class="row">
   <div class="col-sm-2 col-sm-offset-1 end text-left">
     <%= submit_tag '保存', class: 'btn btn-primary' %>

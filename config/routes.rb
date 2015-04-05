@@ -13,7 +13,12 @@ Rails.application.routes.draw do
   # 供应方
   namespace :supply do
     resources :sellers
-    resources :general_products
+    resources :general_products do
+      collection do
+        get :prepare_link_to_seller
+        post :do_link_to_seller
+      end
+    end
     resources :customers
     resources :sheets do
       collection do
@@ -27,7 +32,8 @@ Rails.application.routes.draw do
     resources :home, only: [:index]
     resources :products, only: [:index, :new, :update, :edit] do
       collection do
-        post :index
+        get :prepare_link_to_general_product
+        post :do_link_to_general_product
         post :create_one
         get :import_products_from_xls
         post :import_products_from_xls

@@ -62,8 +62,35 @@ class Supply::ProductsController < BaseController
     end
   end
 
+  def prepare_link_to_general_product
+    show_link_to_general_product_params
+  end
+
+  def do_link_to_general_product
+    begin
+      Product.find(params[:product_id]).update_attribute :general_product_id, params[:general_product_id]
+      flash[:notice] = '关联成功。'
+      redirect_to supply_products_path
+    rescue Exception=>e
+      flash[:alert] = dispose_exception e
+      show_link_to_general_product_params
+      render :prepare_link_to_general_product
+    end
+  end
+
   private
+
     def product_params
       params.require(:product).permit([:english_name,:chinese_name,:spec,:simple_abc])
+    end
+
+    def show_link_to_general_product_params
+      @product_id = params[:product_id]
+      @product = Product.find(params[:product_id])
+      @general_product = @product.general_product
+      @name = params[:name]
+      @general_products = @name.blank? ? current_user.company.general_products : GeneralProduct.where("name like ? ", "%#{@name}%")
+      @general_products = @general_products.paginate(page: params[:page], per_page: 10)
+      @general_product_id = params[:general_product_id]
     end
 end

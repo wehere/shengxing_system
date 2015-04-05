@@ -11,8 +11,10 @@
         <td><%= general_product.id %></td>
         <td><%= general_product.name %></td>
         <td><%= general_product.seller.name rescue '' %></td>
-        <td><%= link_to '编辑', edit_supply_general_product_path(general_product.id), class: 'btn btn-primary' %></td>
+        <td><%= link_to '编辑', edit_supply_general_product_path(general_product.id) %></td>
+        <td><%= link_to '关联卖货人', "/supply/general_products/prepare_link_to_seller?general_product_id=#{general_product.id}", target: '_blank' %></td>
       </tr>
   <% end %>
   </tbody>
 </table>
+<%= will_paginate @general_products, :class => 'flickr_pagination' ,:previous_label => '上一页', :next_label => '下一页'%>

@@ -3,6 +3,8 @@ class GeneralProduct < ActiveRecord::Base
   belongs_to :company, foreign_key: :supplier_id
   has_many :products
 
+  validates_presence_of :name, message: '名称不可以为空。'
+
   def self.create_general_product params, supplier_id
     self.transaction do
       general_product = self.new name: params[:name], seller_id: params[:seller_id], supplier_id: supplier_id
