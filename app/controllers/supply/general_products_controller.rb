@@ -2,7 +2,8 @@ class Supply::GeneralProductsController < BaseController
   before_filter :need_login
 
   def index
-    @general_products = current_user.company.general_products.paginate(page: params[:page], per_page: 10)
+    @name = params[:name]
+    @general_products = current_user.company.general_products.where("name like ?", "%#{params[:name]}%").paginate(page: params[:page], per_page: 10)
   end
 
   def new
