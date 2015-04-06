@@ -16,10 +16,14 @@ class Supply::GeneralProductsController < BaseController
     begin
       GeneralProduct.create_general_product params, current_user.company.id
       flash[:notice] = '产品创建成功。'
-      redirect_to supply_general_products_path
+      if params[:commit] == "保存&继续创建"
+        redirect_to new_supply_general_product_path
+      else
+        redirect_to supply_general_products_path
+      end
     rescue Exception=>e
       flash[:alert] = dispose_exception e
-      @general_product = GeneralProduct.new params
+      @general_product = GeneralProduct.new name: params[:name], seller_id: params[:seller_id], supplier_id: current_user.company.id
       @sellers = current_user.company.sellers
       @seller = @general_product.seller
       render :new

@@ -4,6 +4,7 @@ class GeneralProduct < ActiveRecord::Base
   has_many :products
 
   validates_presence_of :name, message: '名称不可以为空。'
+  validates_uniqueness_of :name, message: '该通用产品已经存在。'
 
   def self.create_general_product params, supplier_id
     self.transaction do
