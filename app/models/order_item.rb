@@ -69,28 +69,78 @@ class OrderItem < ActiveRecord::Base
     sheet1 = book.create_worksheet name: '分菜单'
     format = Spreadsheet::Format.new border: :thin
     merge_format = Spreadsheet::Format.new align: :merge, horizontal_align: :center, border: :thin
-    order_items = OrderItem.joins(:order).where("(orders.delete_flag is null or orders.delete_flag = 0) and orders.supplier_id = ? and orders.reach_order_date = ?", supplier_id, specified_date)
+    sheet1.merge_cells(0,0,0,4)
+    sheet1.row(0).set_format(0, merge_format)
+    sheet1.row(0)[0] = "胜兴#{specified_date}购货汇总"
+    # order_items = OrderItem.joins(:order).where("(orders.delete_flag is null or orders.delete_flag = 0) and orders.supplier_id = ? and orders.reach_order_date = ?", supplier_id, specified_date)
+    order_items_sql = <<-EOF
+      SELECT `order_items`.*
+      FROM `order_items`
+      LEFT JOIN `orders` ON `orders`.`id` = `order_items`.`order_id`
+      LEFT JOIN `products` ON `products`.`id` = `order_items`.`product_id`
+      LEFT JOIN `general_products` ON `general_products`.`id` = `products`.`general_product_id`
+      LEFT JOIN `sellers` ON `sellers`.`id` = `general_products`.`seller_id`
+      WHERE ((orders.delete_flag is null or orders.delete_flag = 0) and orders.supplier_id = #{supplier_id} and orders.reach_order_date = '#{specified_date}')
+      order by `sellers`.`id`, `general_products`.id
+    EOF
+    order_items = OrderItem.find_by_sql(order_items_sql)
+    temp_seller_id = -1
+    temp_general_product_id = -1
     current_row = 0
-    sellers.each do |seller|
-      sheet1.row(current_row)[0] = seller.name
-      current_row += 1
-      seller.general_products.each do |general_product|
-        some_order_items = order_items.joins(product: :general_product).where("general_products.id = ? ", general_product.id)
-        current_col = 0
-        sheet1.row(current_row)[current_col] = general_product.name
-        sheet1.merge_cells(current_row,current_col,current_row+1,current_col)
-        sheet1.row(current_row).set_format(current_col, merge_format)
-        sheet1.row(current_row+1).set_format(current_col, merge_format)
-        current_col += 1
-        some_order_items.each do |s_o_i|
-          sheet1.row(current_row)[current_col] = s_o_i.order.customer.simple_name
-          sheet1.row(current_row+1)[current_col] = s_o_i.plan_weight
-          current_col += 1
-        end
+    current_col = 0
+    order_items.each do |order_item|
+      # 输出卖货人名字
+      t_seller = order_item.product.general_product.seller
+      unless temp_seller_id == t_seller.id
         current_row += 2
+        sheet1.row(current_row)[0] = t_seller.name
+        temp_seller_id = t_seller.id
       end
-      current_row += 2
+      t_general_product = order_item.product.general_product
+      unless temp_general_product_id == t_general_product.id
+        current_row += 2
+        current_col = 0
+        sheet1.row(current_row)[current_col] = t_general_product.name
+        sheet1.row(current_row).set_format(current_col, format)
+        current_col += 1
+        sheet1.row(current_row)[current_col] = order_item.order.customer.simple_name[0,2] + ":" + order_item.order.store.name[0,2]
+        sheet1.row(current_row).set_format(current_col, format)
+        sheet1.row(current_row+1)[current_col] = order_item.plan_weight
+        sheet1.row(current_row+1).set_format(current_col, format)
+        current_col += 1
+        temp_general_product_id = t_general_product.id
+      else
+        sheet1.row(current_row)[current_col] = order_item.order.customer.simple_name[0,2] + ":" + order_item.order.store.name[0,2]
+        sheet1.row(current_row).set_format(current_col, format)
+        sheet1.row(current_row+1)[current_col] = order_item.plan_weight
+        sheet1.row(current_row+1).set_format(current_col, format)
+        current_col += 1
+      end
     end
+
+
+
+    # current_row = 0
+    # sellers.each do |seller|
+    #   sheet1.row(current_row)[0] = seller.name
+    #   current_row += 1
+    #   seller.general_products.each do |general_product|
+    #     some_order_items = order_items.joins(product: :general_product).where("general_products.id = ? ", general_product.id)
+    #     current_col = 0
+    #     sheet1.row(current_row)[current_col] = general_product.name
+    #     sheet1.merge_cells(current_row,current_col,current_row+1,current_col)
+    #     sheet1.row(current_row).set_format(current_col, merge_format)
+    #     sheet1.row(current_row+1).set_format(current_col, merge_format)
+    #     current_col += 1
+    #     some_order_items.each do |s_o_i|
+    #       sheet1.row(current_row)[current_col] = s_o_i.order.customer.simple_name
+    #       sheet1.row(current_row+1)[current_col] = s_o_i.plan_weight
+    #       current_col += 1
+    #     end
+    #     current_row += 2
+    #   end
+    #   current_row += 2
+    # end
     file_path = specified_date.to_date.to_s(:db) + "_分菜单.xls"
     book.write file_path
     file_path
