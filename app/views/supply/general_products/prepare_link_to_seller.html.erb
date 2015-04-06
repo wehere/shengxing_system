@@ -1,4 +1,11 @@
 <br/>
+<div class="row">
+  <div class="col-sm-10 col-sm-offset-2">
+    <h4>
+      <%= GeneralProduct.find(@general_product_id).name rescue '' %>
+    </h4>
+  </div>
+</div>
 <%= form_tag prepare_link_to_seller_supply_general_products_path, method: :get, id: 'create_link_g2s_form' do %>
     <%= tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token) %>
     <%= hidden_field_tag 'general_product_id', @general_product_id %>

@@ -42,9 +42,36 @@ class Supply::SellersController < BaseController
     end
   end
 
+  def prepare_set_general_products
+    show_set_general_products_params
+  end
+
+  def do_set_general_products
+    begin
+      Seller.set_general_products params[:general_product_ids], params[:seller_id]
+      flash[:notice] = '关联通用产品成功。'
+      # show_set_general_products_params
+      # render :prepare_set_general_products
+      redirect_to supply_sellers_path
+    rescue Exception=>e
+      flash[:alert] = dispose_exception e
+      show_set_general_products_params
+      render :prepare_set_general_products
+    end
+  end
+
   private
     def seller_params
       params.permit(:name, :shop_name, :phone, :address)
+    end
+
+    def show_set_general_products_params
+      @name = params[:name]
+      @seller_id = params[:seller_id]
+      @seller = Seller.find(@seller_id)
+      @general_products = current_user.company.general_products.where("seller_id <> ?", @seller_id).where("name like ?", "%#{@name}%").paginate(page: params[:page], per_page: 10)
+      @linked_general_products = Seller.find(@seller_id).general_products
+      @selected_general_products = GeneralProduct.find(params[:general_product_ids].blank? ? [] : params[:general_product_ids])
     end
 
 end

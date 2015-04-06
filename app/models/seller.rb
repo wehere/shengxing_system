@@ -24,4 +24,14 @@ class Seller < ActiveRecord::Base
     end
   end
 
+  def self.set_general_products general_product_ids, seller_id
+    puts '********'*10
+    puts general_product_ids
+    self.transaction do
+      general_product_ids.to_a.each do |g_p_id|
+        GeneralProduct.find(g_p_id).update_attribute :seller_id, seller_id
+      end
+    end
+  end
+
 end

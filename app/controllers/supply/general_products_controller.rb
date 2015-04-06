@@ -77,6 +77,7 @@ class Supply::GeneralProductsController < BaseController
       @name = params[:name]
       @general_product_id = params[:general_product_id]
       @seller_id = params[:seller_id]
+      @seller = GeneralProduct.find(params[:general_product_id]).seller rescue nil
       @sellers = @name.blank? ? current_user.company.sellers : Seller.where("name like ?", "%#{@name}%")
       @sellers = @sellers.paginate(page: params[:page], per_page: 10)
     end

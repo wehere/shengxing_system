@@ -12,7 +12,12 @@ Rails.application.routes.draw do
 
   # 供应方
   namespace :supply do
-    resources :sellers
+    resources :sellers do
+      collection do
+        get :prepare_set_general_products
+        post :do_set_general_products
+      end
+    end
     resources :general_products do
       collection do
         get :prepare_link_to_seller
