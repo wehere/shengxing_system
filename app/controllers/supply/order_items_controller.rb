@@ -80,6 +80,54 @@ class Supply::OrderItemsController < BaseController
     end
   end
 
+  def prepare_classify
+    @specified_date = params[:specified_date].blank? ? Time.now.to_date + 1 : params[:specified_date]
+  end
+
+  def do_classify
+    begin
+      file_name = OrderItem.classify current_user.company.id, params[:specified_date]
+      if File.exists? file_name
+        io = File.open(file_name)
+        io.binmode
+        send_data io.read, filename: file_name, disposition: 'inline'
+        io.close
+        File.delete file_name
+      else
+        flash[:alert] = '文件不存在！'
+        @specified_date = params[:specified_date].blank? ? Time.now.to_date + 1 : params[:specified_date]
+        render :prepare_classify
+      end
+    rescue Exception=> e
+      flash[:alert] = dispose_exception e
+      @specified_date = params[:specified_date].blank? ? Time.now.to_date + 1 : params[:specified_date]
+      render :prepare_classify
+    end
+
+    # @supplier_id = current_user.company.id
+    # @customers = current_user.company.customers.order(:simple_name)
+    # @year_months = YearMonth.all.order(:id)
+    # @current_year_month_id = params[:year_month_id] || YearMonth.current_year_month.id
+    # if request.post?
+    #   begin
+    #     file_name = Price.export_xls_of_prices @supplier_id, params[:id], params[:year_month_id]
+    #     if File.exists? file_name
+    #       io = File.open(file_name)
+    #       io.binmode
+    #       send_data io.read, filename: file_name, disposition: 'inline'
+    #       io.close
+    #       File.delete file_name
+    #     else
+    #       flash[:alert] = '文件不存在！'
+    #       redirect_to export_xls_of_prices_supply_prices_path
+    #     end
+    #   rescue Exception => e
+    #     flash[:alert] = dispose_exception e
+    #     render :export_xls_of_prices
+    #   end
+    # end
+  end
+
   private
     def show_params_of_order_item_form
       @product_name = params[:product_name]

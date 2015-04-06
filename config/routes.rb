@@ -66,6 +66,8 @@ Rails.application.routes.draw do
         get :search
         get :null_price
         get :prices_search
+        get :prepare_classify
+        post :do_classify
       end
       member do
         post :change_delete_flag

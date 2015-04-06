@@ -5,6 +5,7 @@ class OrderItem < ActiveRecord::Base
   delegate :chinese_name, to: :product, prefix: true, allow_nil: true
   delegate :real_price, to: :price, prefix: false, allow_nil: false
 
+
   validates_presence_of :product, message: '不能没有对应的产品。'
   validates_presence_of :price, message: '不能没有对应的价格。'
   validates_presence_of :order, message: '不能没有对应的单据。'
@@ -60,4 +61,39 @@ class OrderItem < ActiveRecord::Base
   def change_delete_status
     self.update_attribute :delete_flag, !self.delete_flag?
   end
+
+  def self.classify supplier_id, specified_date
+    sellers = Company.find(supplier_id).sellers
+    Spreadsheet.client_encoding = "UTF-8"
+    book = Spreadsheet::Workbook.new
+    sheet1 = book.create_worksheet name: '分菜单'
+    format = Spreadsheet::Format.new border: :thin
+    merge_format = Spreadsheet::Format.new align: :merge, horizontal_align: :center, border: :thin
+    order_items = OrderItem.joins(:order).where("(orders.delete_flag is null or orders.delete_flag = 0) and orders.supplier_id = ? and orders.reach_order_date = ?", supplier_id, specified_date)
+    current_row = 0
+    sellers.each do |seller|
+      sheet1.row(current_row)[0] = seller.name
+      current_row += 1
+      seller.general_products.each do |general_product|
+        some_order_items = order_items.joins(product: :general_product).where("general_products.id = ? ", general_product.id)
+        current_col = 0
+        sheet1.row(current_row)[current_col] = general_product.name
+        sheet1.merge_cells(current_row,current_col,current_row+1,current_col)
+        sheet1.row(current_row).set_format(current_col, merge_format)
+        sheet1.row(current_row+1).set_format(current_col, merge_format)
+        current_col += 1
+        some_order_items.each do |s_o_i|
+          sheet1.row(current_row)[current_col] = s_o_i.order.customer.simple_name
+          sheet1.row(current_row+1)[current_col] = s_o_i.plan_weight
+          current_col += 1
+        end
+        current_row += 2
+      end
+      current_row += 2
+    end
+    file_path = specified_date.to_date.to_s(:db) + "_分菜单.xls"
+    book.write file_path
+    file_path
+  end
+
 end
