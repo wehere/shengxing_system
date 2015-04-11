@@ -97,6 +97,7 @@ class OrderItem < ActiveRecord::Base
         temp_seller_id = t_seller.id
       end
       t_general_product = order_item.product.general_product
+      BusinessException.raise "#{order_item.product.chinese_name}(id:#{order_item.product.id})没有对应的通用产品。" if t_general_product.blank?
       unless temp_general_product_id == t_general_product.id
         current_row += 2
         current_col = 0
