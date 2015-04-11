@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150322132549) do
+ActiveRecord::Schema.define(version: 20150411122239) do
 
   create_table "comments", force: true do |t|
     t.integer  "order_id"
@@ -109,6 +109,7 @@ ActiveRecord::Schema.define(version: 20150322132549) do
     t.datetime "updated_at"
     t.string   "true_spec"
     t.integer  "supplier_id"
+    t.integer  "print_times",              default: 0
   end
 
   create_table "products", force: true do |t|
@@ -120,6 +121,7 @@ ActiveRecord::Schema.define(version: 20150322132549) do
     t.datetime "updated_at"
     t.integer  "supplier_id"
     t.integer  "general_product_id"
+    t.integer  "print_times",        default: 0
   end
 
   create_table "sellers", force: true do |t|
