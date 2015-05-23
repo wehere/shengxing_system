@@ -32,7 +32,7 @@ class Supply::OrdersController < BaseController
           order_item.update_money
       end
     end
-    redirect_to edit_supply_order_path(params[:order_id])
+    redirect_to "/supply/orders/#{params[:order_id]}/edit?t=#{Time.now.to_i}"
   end
 
   def comment
