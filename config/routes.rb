@@ -53,6 +53,7 @@ Rails.application.routes.draw do
         get :import_prices_from_xls
         post :import_prices_from_xls
         get :export_xls_of_prices
+        post :update_one_price
       end
       member do
         post :export_xls_of_prices

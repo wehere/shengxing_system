@@ -53,6 +53,30 @@ class Supply::PricesController < BaseController
     end
   end
 
+  def update_one_price
+    price = Price.find_by_id(params[:id]) rescue nil
+    unless price.blank?
+      if params[:price].blank?
+        unless price.true_spec.equal? params[:spec]
+          unless params[:spec].blank?
+            price.update_attribute :true_spec, params[:spec]
+          end
+        end
+      else
+        unless price.price.equal? params[:price].to_f
+          unless params[:price].blank?
+            new_price = price.dup
+            price.update_attribute :is_used, false
+            new_price.price = params[:price]
+            new_price.save!
+          end
+        end
+      end
+
+    end
+    render :text=>'ok'
+  end
+
   def update
     begin
       @old_price = Price.find(params[:id])
