@@ -5,10 +5,72 @@
 //        {
 //            window.location.href=window.location.href+"?t=<%= Time.now.to_s(:number) %>";
 //        }
+        $(".order_id_jump").keypress(function(e){
+
+            var keyCode = e.keyCode ? e.keyCode : e.which ? e.which : e.charCode;
+            if (keyCode == 13){
+
+                var id = $("#order_id").val();
+                var re = /^[1-9]+[0-9]*]*$/;
+                if (re.test(id)) {
+                    $("#jump_order").attr("href", "/supply/orders/"+id+"/edit?t=<%= Time.now.to_i %>");}
+                else {
+                    alert("ID必须是正整数");
+                    return false;
+                }
+                $("#jump_order")[0].click();
+            } else if (keyCode==43){
+                var special_text_fields = $(".special_text_field");
+                special_text_fields[0].focus();
+                return false;
+            }
+        });
+        $("#order_id_2").keypress(function(e){
+
+            var keyCode = e.keyCode ? e.keyCode : e.which ? e.which : e.charCode;
+            if (keyCode == 13){
+
+                var id = $("#order_id_2").val();
+                var re = /^[1-9]+[0-9]*]*$/;
+                if (re.test(id)) {
+                    $("#jump_order_2").attr("href", "/supply/orders/"+id+"/edit?t=<%= Time.now.to_i %>");}
+                else {
+                    alert("ID必须是正整数");
+                    return false;
+                }
+                $("#jump_order_2")[0].click();
+            } else if (keyCode==43){
+                var special_text_fields = $(".special_text_field");
+                special_text_fields[0].focus();
+                return false;
+            }
+        });
+        function jum_order_click_1(){
+            var id = $("#order_id").val();
+            var re = /^[1-9]+[0-9]*]*$/;
+            if (re.test(id)) {
+                $("#jump_order").attr("href", "/supply/orders/"+id+"/edit?t=<%= Time.now.to_i %>");}
+            else {
+                alert("ID必须是正整数");
+                return false;
+            }
+            $("#jump_order")[0].click();
+        }
+        function jum_order_click_2(){
+            var id = $("#order_id_2").val();
+            var re = /^[1-9]+[0-9]*]*$/;
+            if (re.test(id)) {
+                $("#jump_order_2").attr("href", "/supply/orders/"+id+"/edit?t=<%= Time.now.to_i %>");}
+            else {
+                alert("ID必须是正整数");
+                return false;
+            }
+            $("#jump_order_2")[0].click();
+        }
         var special_text_fields = $(".special_text_field");
         special_text_fields[0].focus();
 
-        $("input").keypress(function (e) {
+        $(".special_text_field").keypress(function (e) {
             var keyCode = e.keyCode ? e.keyCode : e.which ? e.which : e.charCode;
             if (keyCode == 13){
                 var i;
@@ -20,7 +82,10 @@
                 collect_elements[i].focus();
                 return false;
             }
-            else
+            else if (keyCode==43){
+                $("#order_id").focus();
+                return false;
+            }else
                 return true;
         });
     });
@@ -34,14 +99,14 @@
         <h5>ID</h5>
       </div>
       <div class="col-sm-1">
-        <%= text_field_tag 'order_id', '', size: 10, style: "height: 35px;" %>
+        <%= text_field_tag 'order_id', '', class:'order_id_jump', size: 10, style: "height: 35px;" %>
 
       </div>
       <!--<div class="col-sm-2" style="background-color: #0063dc" onclick="jump_specified_order()">-->
       <!--<h5>跳转到该单据</h5>-->
       <!--</div>-->
       <div class="col-sm-2">
-        <%= link_to "跳转到该单据", "#", class: 'btn btn-primary', id: "jump_order" %>
+        <%= link_to "跳转到该单据", "#", class: 'btn btn-primary', id: "jump_order", onclick: "jum_order_click_1()" %>
       </div>
     </div>
     <h3>
@@ -124,7 +189,7 @@
         <!--<h5>跳转到该单据</h5>-->
         <!--</div>-->
         <div class="col-sm-2">
-          <%= link_to "跳转到该单据", "#", class: 'btn btn-primary', id: "jump_order_2" %>
+          <%= link_to "跳转到该单据", "#", class: 'btn btn-primary', id: "jump_order_2", onclick: "jum_order_click_2()" %>
         </div>
     </div>
     <br/>
@@ -207,26 +272,26 @@
 </div>
 
 <script language="javascript">
-    $("#order_id").focusout(
-            function() {
-                var id = $("#order_id").val();
-                var re = /^[1-9]+[0-9]*]*$/;
-                if (re.test(id)) {
-                    $("#jump_order").attr("href", "/supply/orders/"+id+"/edit?t=<%= Time.now.to_i %>");}
-                else {
-                    alert("ID必须是正整数");}
-            }
-    );
-    $("#order_id_2").focusout(
-            function() {
-                var id = $("#order_id_2").val();
-                var re = /^[1-9]+[0-9]*]*$/;
-                if (re.test(id)) {
-                    $("#jump_order_2").attr("href", "/supply/orders/"+id+"/edit?t=<%= Time.now.to_i %>");}
-                else {
-                    alert("ID必须是正整数");}
-            }
-    );
+//    $("#order_id").focusout(
+//            function() {
+//                var id = $("#order_id").val();
+//                var re = /^[1-9]+[0-9]*]*$/;
+//                if (re.test(id)) {
+//                    $("#jump_order").attr("href", "/supply/orders/"+id+"/edit?t=<%= Time.now.to_i %>");}
+//                else {
+//                    alert("ID必须是正整数");}
+//            }
+//    );
+//    $("#order_id_2").focusout(
+//            function() {
+//                var id = $("#order_id_2").val();
+//                var re = /^[1-9]+[0-9]*]*$/;
+//                if (re.test(id)) {
+//                    $("#jump_order_2").attr("href", "/supply/orders/"+id+"/edit?t=<%= Time.now.to_i %>");}
+//                else {
+//                    alert("ID必须是正整数");}
+//            }
+//    );
     function jump_specified_order(){
         var id = $("#order_id").val();
         $.ajax({
