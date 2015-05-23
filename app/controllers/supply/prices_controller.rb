@@ -67,8 +67,7 @@ class Supply::PricesController < BaseController
           unless params[:price].blank?
             new_price = price.dup
             price.update_attribute :is_used, false
-            new_price.price = params[:price]
-            new_price.save!
+            new_price.update_attribute :price, params[:price]
           end
         end
       end
