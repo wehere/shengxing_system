@@ -78,6 +78,11 @@
                 for (i = 0; i < collect_elements.length; i++)
                     if (this == collect_elements[i])
                         break;
+                if (i==collect_elements.length-1){
+                    $("#order_items_form").submit();
+                    return false;
+                }
+
                 i = (i + 1) % collect_elements.length;
                 collect_elements[i].focus();
                 return false;
