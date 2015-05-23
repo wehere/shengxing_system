@@ -58,7 +58,7 @@
             <div style="display:none">
               <input name="utf8" type="hidden" value="✓">
               <input name="_method" type="hidden" value="patch">
-              <input name="authenticity_token" type="hidden" value="A3PQdonL6aqSC2BWKyn0/Bb8siEEsKlPPDdPKifeYr4=">
+              <%= tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token) %>
             </div>
     <%= hidden_field_tag 'order_id', @order.id %>
     <table class="table table-striped table-condensed table-hover">
