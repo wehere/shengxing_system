@@ -79,6 +79,7 @@ Rails.application.routes.draw do
       end
       member do
         post :change_delete_flag
+        get :change_delete_flag
       end
     end
   end

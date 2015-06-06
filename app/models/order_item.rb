@@ -5,6 +5,7 @@ class OrderItem < ActiveRecord::Base
   delegate :chinese_name, to: :product, prefix: true, allow_nil: true
   delegate :real_price, to: :price, prefix: false, allow_nil: false
 
+  scope :valid_order_items, -> { where("order_items.delete_flag is null or order_items.delete_flag = 0") }
 
   validates_presence_of :product, message: '不能没有对应的产品。'
   validates_presence_of :price, message: '不能没有对应的价格。'
@@ -56,6 +57,42 @@ class OrderItem < ActiveRecord::Base
       and orders.reach_order_date > '#{Time.now.to_date.last_month.at_beginning_of_month.to_s}'
     EOF
     OrderItem.find_by_sql(sql)
+  end
+
+  def self.common_query options
+
+    BusinessException.raise "未指定供应商是谁！" if options[:supplier_id].blank?
+
+    order_items = OrderItem.valid_order_items
+
+    order_items = order_items.joins(:order) unless order_items.joins_values.include? :order
+
+    order_items = order_items.where("orders.supplier_id = ? ", options[:supplier_id])
+
+    unless options[:start_date].blank?
+      order_items = order_items.join(:order) unless order_items.joins_values.include? :order
+      start_date = options[:start_date].to_date.change(hour:0,min:0,sec:0)
+      order_items = order_items.where("orders.reach_order_date >= ?", start_date)
+    end
+
+    unless options[:end_date].blank?
+      order_items = order_items.join(:order) unless order_items.joins_values.include? :order
+      end_date = options[:end_date].to_date.change(hour:23,min:59,sec:59)
+      order_items = order_items.where("orders.reach_order_date <= ?", end_date)
+    end
+
+    unless options[:customer_id].blank?
+      order_items = order_items.join(:order) unless order_items.joins_values.include? :order
+      order_items = order_items.where("orders.customer_id = ?", options[:customer_id])
+    end
+
+    unless options[:not_customer_id].blank?
+      order_items = order_items.join(:order) unless order_items.joins_values.include? :order
+      order_items = order_items.where("orders.customer_id <> ?", options[:not_customer_id])
+    end
+
+    order_items.order("orders.customer_id, orders.reach_order_date")
+
   end
 
   def change_delete_status

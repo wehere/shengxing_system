@@ -186,7 +186,10 @@ class Order < ActiveRecord::Base
   end
 
   def self.common_query options
-    orders = Order.valid_orders
+
+    BusinessException.raise "未指定供应商是谁！" if options[:supplier_id].blank?
+
+    orders = Order.valid_orders.where("orders.supplier_id = ?", options[:supplier_id]) unless options[:supplier_id].blank?
 
     unless options[:start_date].blank?
       start_date = options[:start_date].to_date.change(hour:0,min:0,sec:0)
@@ -204,7 +207,7 @@ class Order < ActiveRecord::Base
 
     orders = orders.where("orders.not_input_number >= ?", options[:allowed_number_not_input]) unless options[:allowed_number_not_input].blank?
 
-    orders.order(:customer_id)
+    orders.order("orders.customer_id, orders.reach_order_date")
   end
 
   def calculate_not_input_number

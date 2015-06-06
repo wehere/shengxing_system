@@ -66,18 +66,23 @@ class Supply::OrderItemsController < BaseController
 
   def null_price
     supplier_id = current_user.company.id
-    @order_items = OrderItem.find_null_price supplier_id
+    # @order_items = OrderItem.find_null_price supplier_id
+    @order_items = OrderItem.common_query params.permit(:start_date, :end_date, :customer_id, :not_customer_id).merge(supplier_id: supplier_id)
+    @order_items = @order_items.joins(:price) unless @order_items.joins_values.include? :price
+    @order_items = @order_items.where("prices.price is null or prices.price = 0")
+    @order_items = @order_items.paginate(page: params[:page], per_page: 10)
   end
 
   def change_delete_flag
-    begin
+    # begin
       OrderItem.find(params[:id]).change_delete_status
-      flash[:notice] = "作废成功。"
-      redirect_to null_price_supply_order_items_path
-    rescue Exception=>e
-      flash[:alert] = dispose_exception e
-      redirect_to null_price_supply_order_items_path
-    end
+      render :text => "ok"
+      # flash[:notice] = "作废成功。"
+      # redirect_to null_price_supply_order_items_path
+    # rescue Exception=>e
+    #   flash[:alert] = dispose_exception e
+    #   redirect_to null_price_supply_order_items_path
+    # end
   end
 
   def prepare_classify
