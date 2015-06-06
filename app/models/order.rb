@@ -184,4 +184,32 @@ class Order < ActiveRecord::Base
   def deleted?
     self.delete_flag?
   end
+
+  def self.common_query options
+    orders = Order.valid_orders
+
+    unless options[:start_date].blank?
+      start_date = options[:start_date].to_date.change(hour:0,min:0,sec:0)
+      orders = orders.where("reach_order_date >= ?", start_date)
+    end
+
+    unless options[:end_date].blank?
+      end_date = options[:end_date].to_date.change(hour:23,min:59,sec:59)
+      orders = orders.where("reach_order_date <= ?", end_date)
+    end
+
+    orders = orders.where("not_input_number >= ?", options[:allowed_number_not_input]) unless options[:allowed_number_not_input].blank?
+
+    orders
+  end
+
+  def calculate_not_input_number
+    count = self.order_items.where(real_weight: 0).count
+    self.update_attribute :not_input_number, count
+  end
+
+  def self.all_calculate_not_input_number
+    Order.valid_orders.each {|order| order.calculate_not_input_number }
+    "ok"
+  end
 end

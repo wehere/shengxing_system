@@ -63,6 +63,8 @@ Rails.application.routes.draw do
     resources :orders do
       collection do
         post :comment
+        get :not_input
+        post :not_input
       end
     end
     resources :order_types, only: [:index, :create, :destroy, :new]

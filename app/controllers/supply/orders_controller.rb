@@ -32,6 +32,7 @@ class Supply::OrdersController < BaseController
           order_item.update_money
       end
     end
+    Order.find(params[:order_id]).calculate_not_input_number
     redirect_to "/supply/orders/#{params[:order_id]}/edit?t=#{Time.now.to_i}"
   end
 
@@ -44,6 +45,17 @@ class Supply::OrdersController < BaseController
       flash[:alert] = dispose_exception e
       redirect_to edit_supply_order_path(params[:order_id])
     end
+  end
+
+  def not_input
+    # if request.post?
+      @orders = Order.common_query(params.permit(:start_date, :end_date, :allowed_number_not_input))
+      @orders = @orders.where("not_input_number > ?", 0) if params[:allowed_number_not_input].blank?
+      @orders = @orders.paginate(page: params[:page], per_page: 10)
+
+    # else
+    #
+    # end
   end
 
 end
