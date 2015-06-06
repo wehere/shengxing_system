@@ -9,6 +9,7 @@ class Order < ActiveRecord::Base
   belongs_to :order_type
   belongs_to :user
   scope :valid_orders, -> { where("orders.delete_flag is null or orders.delete_flag = 0") }
+  scope :not_return_orders, -> { where("orders.return_flag = 0 or orders.return_flag is null") }
   def sum_money
     self.order_items.sum('money').round(2)
   end
@@ -218,5 +219,9 @@ class Order < ActiveRecord::Base
   def self.all_calculate_not_input_number
     Order.valid_orders.each {|order| order.calculate_not_input_number }
     "ok"
+  end
+
+  def return
+    self.update_attribute :return_flag, true
   end
 end

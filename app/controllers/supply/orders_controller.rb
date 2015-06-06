@@ -48,14 +48,21 @@ class Supply::OrdersController < BaseController
   end
 
   def not_input
-    # if request.post?
       @orders = Order.common_query(params.permit(:start_date, :end_date, :allowed_number_not_input, :customer_id, :not_customer_id).merge(supplier_id: current_user.company.id))
       @orders = @orders.where("orders.not_input_number > ?", 0) if params[:allowed_number_not_input].blank?
       @orders = @orders.paginate(page: params[:page], per_page: 10)
 
-    # else
-    #
-    # end
+  end
+
+  def return
+    Order.find(params[:id]).return
+    render :text => "ok"
+  end
+
+  def not_return
+    @orders = Order.common_query(params.permit(:start_date, :end_date, :customer_id, :not_customer_id).merge(supplier_id: current_user.company.id))
+    @orders = @orders.not_return_orders
+    @orders = @orders.paginate(page: params[:page], per_page: 10)
   end
 
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150606054942) do
+ActiveRecord::Schema.define(version: 20150606163234) do
 
   create_table "comments", force: true do |t|
     t.integer  "order_id"
@@ -88,6 +88,7 @@ ActiveRecord::Schema.define(version: 20150606054942) do
     t.boolean  "delete_flag"
     t.integer  "supplier_id"
     t.integer  "not_input_number"
+    t.boolean  "return_flag"
   end
 
   create_table "price_change_histories", force: true do |t|
