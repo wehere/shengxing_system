@@ -204,7 +204,7 @@ class Order < ActiveRecord::Base
 
     orders = orders.where("orders.not_input_number >= ?", options[:allowed_number_not_input]) unless options[:allowed_number_not_input].blank?
 
-    orders
+    orders.order(:customer_id)
   end
 
   def calculate_not_input_number
