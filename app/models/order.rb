@@ -190,15 +190,19 @@ class Order < ActiveRecord::Base
 
     unless options[:start_date].blank?
       start_date = options[:start_date].to_date.change(hour:0,min:0,sec:0)
-      orders = orders.where("reach_order_date >= ?", start_date)
+      orders = orders.where("orders.reach_order_date >= ?", start_date)
     end
 
     unless options[:end_date].blank?
       end_date = options[:end_date].to_date.change(hour:23,min:59,sec:59)
-      orders = orders.where("reach_order_date <= ?", end_date)
+      orders = orders.where("orders.reach_order_date <= ?", end_date)
     end
 
-    orders = orders.where("not_input_number >= ?", options[:allowed_number_not_input]) unless options[:allowed_number_not_input].blank?
+    orders = orders.where("orders.customer_id = ?", options[:customer_id]) unless options[:customer_id].blank?
+
+    orders = orders.where("orders.customer_id <> ?", options[:not_customer_id]) unless options[:not_customer_id].blank?
+
+    orders = orders.where("orders.not_input_number >= ?", options[:allowed_number_not_input]) unless options[:allowed_number_not_input].blank?
 
     orders
   end

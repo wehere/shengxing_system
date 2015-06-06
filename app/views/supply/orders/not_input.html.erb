@@ -6,14 +6,22 @@
 <%= date_field_tag :end_date, params[:end_date] %>
 允许未填到货量个数
 <%= text_field_tag :allowed_number_not_input, params[:allowed_number_not_input] %>
+<br/>
+单位ID
+<%= text_field_tag :customer_id, params[:customer_id] %>
+排除单位ID
+<%= text_field_tag :not_customer_id, params[:not_customer_id] %>
 <%= submit_tag '查询未录入数据的单据', class: 'btn btn-primary' %>
 <% end %>
 <table class="table table-striped">
-  <thead><th>订单ID</th><th>订货单位</th><th>门店</th><th>到货量未填个数</th><th>单据类型</th><th>到货日期</th><th>金额</th><th>操作</th></thead>
+  <thead><th>订单ID</th><th>单位ID</th><th>订货单位</th><th>门店</th><th>到货量未填个数</th><th>单据类型</th><th>到货日期</th><th>金额</th><th>操作</th></thead>
   <% @orders.each do |order| %>
       <tr>
         <td>
           <%= order.id %>
+        </td>
+        <td>
+          <%= order.customer.id %>
         </td>
         <td>
           <%= order.customer.simple_name %>
