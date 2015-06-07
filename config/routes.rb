@@ -24,7 +24,16 @@ Rails.application.routes.draw do
         post :do_link_to_seller
       end
     end
-    resources :customers
+    resources :customers do
+      collection do
+        get :add_store
+        post :add_store
+        get :add_order_type
+        post :add_order_type
+        get :add_notice
+        post :add_notice
+      end
+    end
     resources :sheets do
       collection do
         post :export_order_total_for_specified_days
