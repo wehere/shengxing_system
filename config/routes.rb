@@ -55,6 +55,7 @@ Rails.application.routes.draw do
     end
     resources :prices do
       collection do
+        get :index
         get :search
         post :search
         get :generate_next_month
@@ -65,6 +66,7 @@ Rails.application.routes.draw do
         post :update_one_price
       end
       member do
+        get :do_not_use
         post :export_xls_of_prices
         post :true_update_price
       end

@@ -2,7 +2,26 @@ require 'spreadsheet'
 class Supply::PricesController < BaseController
   before_filter :need_login
   def index
+    @customers = current_user.company.customers
+    @year_months = YearMonth.all
+    params[:year_month_id] ||= YearMonth.current_year_month.id
+
     @prices = current_user.company.all_prices
+    @prices = @prices.where(year_month_id: params[:year_month_id]) unless params[:year_month_id].blank?
+    @prices = @prices.where(customer_id: params[:customer_id]) unless params[:customer_id].blank?
+    unless params[:product_name].blank?
+      @prices = @prices.joins(:product) unless @prices.joins_values.include? :product
+      @prices = @prices.where("products.chinese_name like ?", "%#{params[:product_name]}%")
+    end
+    @prices = @prices.paginate(per_page: 6, page: params[:page]||1)
+  end
+
+  def do_not_use
+    price = Price.find(params[:id])
+    price.update_attribute :is_used, false
+    @customers = current_user.company.customers
+    @year_months = YearMonth.all
+    render :index
   end
 
   def search
