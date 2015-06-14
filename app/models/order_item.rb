@@ -131,8 +131,9 @@ class OrderItem < ActiveRecord::Base
       # 输出卖货人名字
       t_seller = order_item.product.general_product.seller
       unless temp_seller_id == t_seller.id
-        current_row += 2
+        current_row += 3
         sheet1.row(current_row)[0] = t_seller.name
+        sheet1.row(current_row+1)[0] = t_seller.shop_name
         temp_seller_id = t_seller.id
       end
       t_general_product = order_item.product.general_product

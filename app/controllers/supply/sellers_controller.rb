@@ -50,9 +50,9 @@ class Supply::SellersController < BaseController
     begin
       Seller.set_general_products params[:general_product_ids], params[:seller_id]
       flash[:notice] = '关联通用产品成功。'
-      # show_set_general_products_params
-      # render :prepare_set_general_products
-      redirect_to supply_sellers_path
+      show_set_general_products_params
+      render :prepare_set_general_products
+      # redirect_to supply_sellers_path
     rescue Exception=>e
       flash[:alert] = dispose_exception e
       show_set_general_products_params
