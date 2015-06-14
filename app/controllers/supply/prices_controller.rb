@@ -56,7 +56,7 @@ class Supply::PricesController < BaseController
 
   def create
     begin
-      Price.create! price_params
+      Price.create! price_params.merge(is_used: true)
       flash[:success] = '创建成功'
       redirect_to search_supply_prices_path, method: :get
     rescue Exception => e
