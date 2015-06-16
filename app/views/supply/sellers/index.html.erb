@@ -3,7 +3,7 @@
 <br/>
 <table class="table">
   <thead>
-    <th>卖家名字</th><th>店铺名称</th><th>手机</th><th>地址</th><th>操作</th>
+    <th>卖家名字</th><th>店铺名称</th><th>手机</th><th>地址</th><th>排序</th><th>操作</th>
   </thead>
   <tbody>
     <% @sellers.each do |seller| %>
@@ -12,6 +12,7 @@
           <td><%= seller.shop_name %></td>
           <td><%= seller.phone %></td>
           <td><%= seller.address %></td>
+          <td><%= seller.sort_number %></td>
           <td><%= link_to '编辑', edit_supply_seller_path(seller.id)  %>
           <%= link_to '查看与更新通用产品', "/supply/sellers/prepare_set_general_products?seller_id=#{seller.id}" %></td>
 

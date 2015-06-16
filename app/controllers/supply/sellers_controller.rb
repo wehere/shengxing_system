@@ -28,7 +28,7 @@ class Supply::SellersController < BaseController
       redirect_to supply_sellers_path
     rescue Exception=>e
       flash[:alert] = dispose_exception e
-      @seller = Seller.new seller_params
+      @seller = Seller.find(params[:id])
       render :edit
     end
   end
@@ -62,7 +62,7 @@ class Supply::SellersController < BaseController
 
   private
     def seller_params
-      params.permit(:name, :shop_name, :phone, :address)
+      params.permit(:name, :shop_name, :phone, :address, :sort_number)
     end
 
     def show_set_general_products_params

@@ -120,7 +120,7 @@ class OrderItem < ActiveRecord::Base
       LEFT JOIN `general_products` ON `general_products`.`id` = `products`.`general_product_id`
       LEFT JOIN `sellers` ON `sellers`.`id` = `general_products`.`seller_id`
       WHERE ((orders.delete_flag is null or orders.delete_flag = 0) and orders.supplier_id = #{supplier_id} and orders.reach_order_date = '#{specified_date}')
-      order by `sellers`.`id`, `general_products`.id
+      order by `sellers`.`sort_number`, `general_products`.id
     EOF
     order_items = OrderItem.find_by_sql(order_items_sql)
     temp_seller_id = -1
