@@ -2,7 +2,7 @@ class Supply::SellersController < BaseController
   before_filter :need_login
 
   def index
-    @sellers = current_user.company.sellers
+    @sellers = current_user.company.sellers.order(:sort_number)
   end
 
   def new
@@ -58,6 +58,30 @@ class Supply::SellersController < BaseController
       show_set_general_products_params
       render :prepare_set_general_products
     end
+  end
+
+  def up
+    seller = Seller.find_by_id(params[:id])
+    if seller.blank? || seller.sort_number == 0
+      redirect_to action: :index
+      return
+    end
+    pre_seller = Seller.find_by_sort_number(seller.sort_number - 1)
+    pre_seller.update_attribute :sort_number, seller.sort_number unless pre_seller.blank?
+    seller.update_attribute :sort_number, seller.sort_number - 1
+    redirect_to action: :index
+  end
+
+  def down
+    seller = Seller.find_by_id(params[:id])
+    if seller.blank?
+      redirect_to action: :index
+      return
+    end
+    next_seller = Seller.find_by_sort_number(seller.sort_number + 1)
+    next_seller.update_attribute :sort_number, seller.sort_number unless next_seller.blank?
+    seller.update_attribute :sort_number, seller.sort_number + 1
+    redirect_to action: :index
   end
 
   private

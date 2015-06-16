@@ -13,9 +13,12 @@
           <td><%= seller.phone %></td>
           <td><%= seller.address %></td>
           <td><%= seller.sort_number %></td>
-          <td><%= link_to '编辑', edit_supply_seller_path(seller.id)  %>
-          <%= link_to '查看与更新通用产品', "/supply/sellers/prepare_set_general_products?seller_id=#{seller.id}" %></td>
-
+          <td>
+              <%= link_to '编辑', edit_supply_seller_path(seller.id)  %>
+              <%= link_to '查看与更新通用产品', "/supply/sellers/prepare_set_general_products?seller_id=#{seller.id}" %>
+              <%= link_to "向上", "/supply/sellers/up/?id=#{seller.id}" %>
+              <%= link_to "向下", "/supply/sellers/down?id=#{seller.id}" %>
+          </td>
         </tr>
     <% end %>
   </tbody>

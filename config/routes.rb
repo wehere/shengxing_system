@@ -16,6 +16,8 @@ Rails.application.routes.draw do
       collection do
         get :prepare_set_general_products
         post :do_set_general_products
+        get :up
+        get :down
       end
     end
     resources :general_products do
