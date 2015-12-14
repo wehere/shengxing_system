@@ -18,7 +18,7 @@ class Supply::SheetsController < BaseController
   def export_order_total_for_specified_days
     begin
       supplier_id = current_user.company.id
-      file_name = Order.export_order_total_for_specified_days params[:start_date], params[:end_date],
+      file_name = Order.export_order_total_for_specified_days params[:start_date].to_date, params[:end_date].to_date,
                                                               params[:customer_id], supplier_id, params[:store_id]
       if File.exists? file_name
         io = File.open(file_name)

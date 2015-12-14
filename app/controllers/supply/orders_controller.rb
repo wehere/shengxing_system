@@ -15,6 +15,21 @@ class Supply::OrdersController < BaseController
     @orders = @orders.paginate(page: params[:page], per_page: 10)
   end
 
+  def save_real_price
+    begin
+      order_item = OrderItem.find(params[:order_item_id])
+      price = order_item.price
+      price.update_attribute :price, params[:real_price] if price.price.blank? || price.price == 0.0
+      g_price = price.dup
+      g_price.update_attribute :is_used, false
+      order_item.update_attribute :price_id, g_price.id
+      order_item.update_money
+      render text: g_price.price.to_s
+    rescue Exception=>e
+      render text: dispose_exception(e)
+    end
+  end
+
   def edit
     @order = Order.find(params[:id])
     @pre_order = @order.previous @order.order_type.previous

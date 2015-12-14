@@ -90,7 +90,7 @@ class Supply::OrderItemsController < BaseController
   end
 
   def do_classify
-    begin
+    # begin
       file_name = OrderItem.classify current_user.company.id, params[:specified_date]
       if File.exists? file_name
         io = File.open(file_name)
@@ -103,11 +103,11 @@ class Supply::OrderItemsController < BaseController
         @specified_date = params[:specified_date].blank? ? Time.now.to_date + 1 : params[:specified_date]
         render :prepare_classify
       end
-    rescue Exception=> e
-      flash[:alert] = dispose_exception e
-      @specified_date = params[:specified_date].blank? ? Time.now.to_date + 1 : params[:specified_date]
-      render :prepare_classify
-    end
+    # rescue Exception=> e
+    #   flash[:alert] = dispose_exception e
+    #   @specified_date = params[:specified_date].blank? ? Time.now.to_date + 1 : params[:specified_date]
+    #   render :prepare_classify
+    # end
 
     # @supplier_id = current_user.company.id
     # @customers = current_user.company.customers.order(:simple_name)

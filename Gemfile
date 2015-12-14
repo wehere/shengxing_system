@@ -42,3 +42,4 @@ end
 group :production do
 
 end
+gem "simple-navigation"

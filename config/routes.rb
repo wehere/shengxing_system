@@ -75,6 +75,7 @@ Rails.application.routes.draw do
     end
     resources :orders do
       collection do
+        post :save_real_price
         post :comment
         get :not_input
         post :not_input
