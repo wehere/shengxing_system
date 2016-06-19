@@ -22,4 +22,10 @@ class TradeController < BaseController
     redirect_to action: :conditions
   end
 
+  def change_condition
+    condition = Condition.find(params[:id])
+    condition.update_attributes is_valid: !condition.is_valid
+    redirect_to action: :conditions
+  end
+
 end

@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       get :conditions
       get :edit_condition
       post :update_condition
+      get :change_condition
     end
   end
   # 供应方

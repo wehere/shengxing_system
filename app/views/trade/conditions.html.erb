@@ -7,6 +7,7 @@
   <td><%= condition.value %></td>
   <td><%= condition.is_valid? ? '有效' : '无效' %></td>
   <td><%= link_to '编辑', "/trade/edit_condition?id=#{condition.id}" %></td>
+  <td><%= link_to '改变状态', "/trade/change_condition?id=#{condition.id}" %></td>
 </tr>
 <% end %>
 </table>

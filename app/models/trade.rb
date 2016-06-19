@@ -22,7 +22,10 @@ class Trade < ActiveRecord::Base
         'al' => al.to_f
     }
     Condition.is_valid.each do |condition|
-      send_phone_message Trade::PHONE, condition.noble_metal.name, prices[condition.noble_metal.code] if condition.conform? prices
+      if condition.conform? prices
+        send_phone_message Trade::PHONE, condition.noble_metal.name, prices[condition.noble_metal.code]
+        condition.update_attributes is_valid: false
+      end
     end
   end
 
