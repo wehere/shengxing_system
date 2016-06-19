@@ -9,7 +9,15 @@ Rails.application.routes.draw do
     resources :products
   end
 
-
+  resources :trade do
+    collection do
+      get :new_condition
+      post :create_condition
+      get :conditions
+      get :edit_condition
+      post :update_condition
+    end
+  end
   # 供应方
   namespace :supply do
     resources :sellers do

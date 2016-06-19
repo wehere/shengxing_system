@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150616120202) do
+ActiveRecord::Schema.define(version: 20160616022952) do
 
   create_table "comments", force: true do |t|
     t.integer  "order_id"
@@ -29,6 +29,15 @@ ActiveRecord::Schema.define(version: 20150616120202) do
     t.string   "address"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "conditions", force: true do |t|
+    t.integer  "noble_metal_id"
+    t.integer  "relation"
+    t.float    "value",          limit: 24
+    t.boolean  "is_valid",                  default: true
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
   end
 
   create_table "customers_companies", id: false, force: true do |t|
@@ -54,6 +63,13 @@ ActiveRecord::Schema.define(version: 20150616120202) do
     t.datetime "need_reach_date"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "noble_metals", force: true do |t|
+    t.string   "name"
+    t.string   "code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "order_items", force: true do |t|
@@ -153,6 +169,11 @@ ActiveRecord::Schema.define(version: 20150616120202) do
 
   create_table "test", force: true do |t|
     t.string "name", limit: 32
+  end
+
+  create_table "tieba_messages", force: true do |t|
+    t.text    "content"
+    t.integer "is_used"
   end
 
   create_table "users", force: true do |t|

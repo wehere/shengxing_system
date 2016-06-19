@@ -1,0 +1,6 @@
+<%= form_tag "/trade/update_condition?id=#{@condition.id}", method: :post do %>
+    <%= @condition.noble_metal.name %>
+    <%= select_tag :relation, options_from_collection_for_select(Condition::RELATION, 'first', 'last', params[:relation]||@condition.relation), prompt: '选择关系' %>
+    <%= text_field_tag :value, params[:value]||@condition.value %>
+    <%= submit_tag '保存' %>
+<% end %>

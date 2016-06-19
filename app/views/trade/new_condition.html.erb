@@ -1,0 +1,6 @@
+<%= form_tag '/trade/create_condition', method: :post do %>
+<%= select_tag :noble_metal_id, options_from_collection_for_select(NobleMetal.all, 'id', 'name', params[:noble_metal_id]), prompt: '选择品种' %>
+<%= select_tag :relation, options_from_collection_for_select(Condition::RELATION, 'first', 'last', params[:relation]), prompt: '选择关系' %>
+<%= text_field_tag :value, params[:value] %>
+<%= submit_tag '保存' %>
+<% end %>

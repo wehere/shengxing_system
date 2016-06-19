@@ -125,6 +125,8 @@ class Order < ActiveRecord::Base
     sheet1.row(1)[1] = '单位'
     sheet1.row(2)[1] = '门店'
     current_row = 3
+    start_date = start_date.to_date
+    end_date = end_date.to_date
     for reach_date in start_date..end_date do
       sheet1.row(current_row)[1] = ''
       sheet1.merge_cells(current_row,0,current_row,1)

@@ -1,0 +1,14 @@
+
+<table>
+<% @conditions.each do |condition| %>
+<tr>
+  <td><%= condition.noble_metal.name %></td>
+  <td><%= Condition::RELATION[condition.relation] %></td>
+  <td><%= condition.value %></td>
+  <td><%= condition.is_valid? ? '有效' : '无效' %></td>
+  <td><%= link_to '编辑', "/trade/edit_condition?id=#{condition.id}" %></td>
+</tr>
+<% end %>
+</table>
+<br/>
+<%= link_to '新建', '/trade/new_condition' %>
