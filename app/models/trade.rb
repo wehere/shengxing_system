@@ -13,12 +13,18 @@ class Trade < ActiveRecord::Base
       arr = v.gsub("　",",").gsub("  ",",").gsub("最新价：","").gsub("涨幅：","").gsub("%","")        .split(",")
       prices[k] = arr[3].to_f
       noble_metal = NobleMetal.find_by_code k
-      NobleMetalPrice.find_or_create_by! noble_metal_id: noble_metal.id,
+      nmp = NobleMetalPrice.where noble_metal_id: noble_metal.id,
+                                  price: arr[3],
+                                  trade_date: arr[0],
+                                  trade_time: arr[2],
+                                  week: arr[1]
+                                  # change_percent: arr[4]
+      NobleMetalPrice.create! noble_metal_id: noble_metal.id,
                                          price: arr[3],
                                          trade_date: arr[0],
                                          trade_time: arr[2],
                                          week: arr[1],
-                                         change_percent: arr[4]
+                                         change_percent: arr[4] if nmp.blank?
     end
     # platinum = response["platinum"].match(/[：]{1}([\d.]{1,})[　]{1}/)[1]
     # response["platinum"].gsub("　",",").gsub("  ",",").gsub("最新价：","").gsub("涨幅：","").gsub("%","")        .split(",")
