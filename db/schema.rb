@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160616022952) do
+ActiveRecord::Schema.define(version: 20160620115526) do
 
   create_table "comments", force: true do |t|
     t.integer  "order_id"
@@ -63,6 +63,17 @@ ActiveRecord::Schema.define(version: 20160616022952) do
     t.datetime "need_reach_date"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "noble_metal_prices", force: true do |t|
+    t.integer  "noble_metal_id"
+    t.float    "price",          limit: 24
+    t.date     "trade_date"
+    t.time     "trade_time"
+    t.string   "week"
+    t.float    "change_percent", limit: 24
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   create_table "noble_metals", force: true do |t|
