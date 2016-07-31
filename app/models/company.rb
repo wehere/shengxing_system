@@ -50,4 +50,12 @@ class Company < ActiveRecord::Base
     end
   end
 
+  def self.all_suppliers
+    all_supplier_ids = []
+    Company.all.each do |c|
+      all_supplier_ids << c.id if c.customers.count >= 1
+    end
+    where("id in (?)", all_supplier_ids)
+  end
+
 end

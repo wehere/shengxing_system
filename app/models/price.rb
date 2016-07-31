@@ -18,6 +18,12 @@ class Price < ActiveRecord::Base
     self.price
   end
 
+  def self.g_next_month_price origin_year_month_id, target_year_month_id, supplier_id
+    YearMonth.generate_recent_year_months
+    prices = Price.where(is_used: true, year_month_id: origin_year_month_id, supplier_id: supplier_id)
+    Price.generate_next_month_batch prices, target_year_month_id
+  end
+
   def generate_next_month next_month_id
     return nil if Price.exists? year_month_id: next_month_id, customer_id: self.customer_id, product_id: self.product_id, supplier_id: self.supplier_id, is_used: true
     new_price = self.dup

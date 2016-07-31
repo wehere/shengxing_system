@@ -1,14 +1,19 @@
 # source 'https://rubygems.org'
-source 'https://gems.ruby-china.org/'
-gem 'rails', '4.1.4'
+#source 'https://gems.ruby-china.org/'
+source 'https://ruby.taobao.org/'
+
+ruby '2.0.0'
+#ruby-gemset=sx
+
+gem 'rails', '4.2.4'
 gem 'sass-rails', '~> 4.0.3'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
-gem 'devise'
-gem 'mysql2'
+gem 'devise', '=3.5.2'
+gem 'mysql2', '0.3.18'
 gem 'will_paginate','3.0.7'
 gem 'bootstrap-will_paginate','0.0.10'
 gem 'therubyracer',  platforms: :ruby
@@ -44,3 +49,6 @@ group :production do
 end
 gem "simple-navigation"
 gem 'rest-client'
+
+gem "delayed_job_active_record"
+gem "daemons"
