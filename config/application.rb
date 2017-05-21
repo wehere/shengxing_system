@@ -43,6 +43,8 @@ module ShengxingSystem
     config.autoload_paths += %W(#{config.root}/lib)
     config.autoload_paths += Dir["#{config.root}/lib/**/"]
 
+    config.active_job.queue_adapter = :sidekiq
+
     require Rails.root.join('lib/tool.rb')
   end
 end

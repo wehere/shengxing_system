@@ -2,7 +2,7 @@
 #source 'https://gems.ruby-china.org/'
 source 'https://ruby.taobao.org/'
 
-ruby '2.0.0'
+ruby '2.3.1'
 #ruby-gemset=sx
 
 gem 'rails', '4.2.4'
@@ -36,7 +36,7 @@ group :development do
   gem 'capistrano-rvm',   '~> 0.1', require: false
 end
 group :development, :test do
-  gem 'sqlite3', '= 1.3.8'
+  gem 'sqlite3', '~> 1.3', '>= 1.3.13'
   gem 'rspec-rails', '~> 3.0.0'
   gem 'factory_girl_rails'
   gem 'database_cleaner'
@@ -52,3 +52,11 @@ gem 'rest-client'
 
 gem "delayed_job_active_record"
 gem "daemons"
+
+gem 'annotate'
+
+gem 'sidekiq', '~> 5.0'
+
+gem 'sinatra'
+
+gem 'redis-namespace', '~> 1.5', '>= 1.5.3'

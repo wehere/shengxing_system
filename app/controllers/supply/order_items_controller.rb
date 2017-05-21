@@ -90,9 +90,9 @@ class Supply::OrderItemsController < BaseController
     # 把更新价格表的任务放在这里
     # 月底倒数三天更新价格
     # if Time.now.end_of_month.to_date.day - Time.now.to_date.day < 3
-      # YearMonth.delay.generate_recent_year_months
+      # YearMonth.generate_recent_year_months
       # Company.all_suppliers.each do |supplier|
-        # Price.delay.g_next_month_price YearMonth.current_year_month.id, YearMonth.next_year_month.id, supplier.id
+        # Price.g_next_month_price YearMonth.current_year_month.id, YearMonth.next_year_month.id, supplier.id
       # end
     # end
 
