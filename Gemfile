@@ -25,10 +25,11 @@ gem 'exception_notification', '~> 4.0.1'
 gem 'bootstrap-sass'
 gem 'fastercsv', '~> 1.5.5'
 gem 'spreadsheet'
-gem 'unicorn'
+# gem 'unicorn'
+gem 'puma', '~> 3.8', '>= 3.8.2'
 group :development do
   gem 'spring'
-  gem 'capistrano', '~> 3.3.0'
+  gem 'capistrano', '~> 3.6'
   # cap tasks to manage puma application server
   gem 'capistrano-puma', require: false
   gem 'capistrano-rails',   '~> 1.1', require: false
