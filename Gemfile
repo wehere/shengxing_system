@@ -31,6 +31,7 @@ group :development do
   gem 'spring'
   gem 'capistrano', '~> 3.6'
   # cap tasks to manage puma application server
+  gem 'capistrano-sidekiq', '~> 0.10.0'
   gem 'capistrano-puma', require: false
   gem 'capistrano-rails',   '~> 1.1', require: false
   gem 'capistrano-bundler', '~> 1.1', require: false
