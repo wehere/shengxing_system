@@ -3,7 +3,7 @@
 source 'https://ruby.taobao.org/'
 
 ruby '2.3.1'
-#ruby-gemset=sx
+#ruby-gemset=shengxing
 
 gem 'rails', '4.2.4'
 gem 'sass-rails', '~> 4.0.3'
