@@ -62,3 +62,5 @@ gem 'sidekiq', '~> 5.0'
 gem 'sinatra'
 
 gem 'redis-namespace', '~> 1.5', '>= 1.5.3'
+
+gem 'puma_worker_killer'
